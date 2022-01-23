@@ -1,0 +1,7 @@
+core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
+uart.c:19:6:uartProccessorInit	8	static
+uart.c:39:6:uartComputerInit	8	static
+uart.c:58:6:USART2_EXTI26_IRQHandler	4	static
+uart.c:64:6:USART1_EXTI25_IRQHandler	4	static
+uart.c:72:6:print	16	static
+uart.c:81:6:USART2_print	16	static

@@ -1,0 +1,2 @@
+wifi.c:21:6:wifiConnect	8	static
+wifi.c:136:6:wifiLedExecute	4	static

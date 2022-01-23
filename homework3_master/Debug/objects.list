@@ -1,0 +1,6 @@
+"./Src/catch.o"
+"./Src/led.o"
+"./Src/main.o"
+"./Src/uart.o"
+"./Src/wifi.o"
+"./Startup/startup_stm32f303retx.o"

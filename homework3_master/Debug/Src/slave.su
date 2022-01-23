@@ -1,0 +1,4 @@
+slave.c:23:6:SLAVE_blink	16	static
+slave.c:33:9:SLAVE_getPeriod	16	static
+slave.c:44:6:SLAVE_ledOff	8	static
+slave.c:53:6:SLAVE_ledOn	8	static
