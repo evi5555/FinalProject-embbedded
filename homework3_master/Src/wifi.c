@@ -23,7 +23,7 @@ void wifiConnect()
 	//getting the name and password of Local Wifi
 	//name_of_wifi[counter]='"';
 	//counter++;
-	print("please type the name of the wifiii now\n");
+	print("please type the name of the wifi now\n");
 	while(1/*USART2->RDR!='\n'*/)  // that means that the last char received
 	{
 		//print("mamba in\n");

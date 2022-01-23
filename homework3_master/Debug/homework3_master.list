@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   00001b13  00000000  00000000  0002518e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00087208  00000000  00000000  00026ca1  2**0
+ 18 .debug_str    00087256  00000000  00000000  00026ca1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000adea9  2**0
+ 19 .comment      00000053  00000000  00000000  000adef7  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000005f4  00000000  00000000  000adefc  2**2
+ 20 .debug_frame  000005f4  00000000  00000000  000adf4c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -330,15 +330,35 @@ Disassembly of section .text:
  8000430:	40004400 	.word	0x40004400
 
 08000434 <wifiConnect>:
+
+
+
+
+void wifiConnect()
+{
  8000434:	b580      	push	{r7, lr}
  8000436:	af00      	add	r7, sp, #0
+	//getting the name and password of Local Wifi
+	//name_of_wifi[counter]='"';
+	//counter++;
+	print("please type the name of the wifi now\n");
  8000438:	488f      	ldr	r0, [pc, #572]	; (8000678 <wifiConnect+0x244>)
  800043a:	f7ff ffc1 	bl	80003c0 <print>
+	while(1/*USART2->RDR!='\n'*/)  // that means that the last char received
+	{
+		//print("mamba in\n");
+		if(USART2->RDR=='\n')
  800043e:	4b8f      	ldr	r3, [pc, #572]	; (800067c <wifiConnect+0x248>)
  8000440:	8c9b      	ldrh	r3, [r3, #36]	; 0x24
  8000442:	b29b      	uxth	r3, r3
  8000444:	2b0a      	cmp	r3, #10
  8000446:	d019      	beq.n	800047c <wifiConnect+0x48>
+		{
+			//name_of_wifi[counter]=USART2->RDR;
+			//while(!(USART2->ISR & 0x00000020));  // check that data recevied
+			break;
+		}
+		name_of_wifi[counter]=USART2->RDR;
  8000448:	4b8c      	ldr	r3, [pc, #560]	; (800067c <wifiConnect+0x248>)
  800044a:	8c9b      	ldrh	r3, [r3, #36]	; 0x24
  800044c:	b29a      	uxth	r2, r3
@@ -347,51 +367,78 @@ Disassembly of section .text:
  8000452:	b2d1      	uxtb	r1, r2
  8000454:	4a8b      	ldr	r2, [pc, #556]	; (8000684 <wifiConnect+0x250>)
  8000456:	54d1      	strb	r1, [r2, r3]
+		while(!(USART2->ISR & 0x00000020));  // check that data recevied
  8000458:	bf00      	nop
  800045a:	4b88      	ldr	r3, [pc, #544]	; (800067c <wifiConnect+0x248>)
  800045c:	69db      	ldr	r3, [r3, #28]
  800045e:	f003 0320 	and.w	r3, r3, #32
  8000462:	2b00      	cmp	r3, #0
  8000464:	d0f9      	beq.n	800045a <wifiConnect+0x26>
+		//print("mamba in\n");
+		counter++;
  8000466:	4b86      	ldr	r3, [pc, #536]	; (8000680 <wifiConnect+0x24c>)
  8000468:	681b      	ldr	r3, [r3, #0]
  800046a:	3301      	adds	r3, #1
  800046c:	4a84      	ldr	r2, [pc, #528]	; (8000680 <wifiConnect+0x24c>)
  800046e:	6013      	str	r3, [r2, #0]
+		count_dump++;
  8000470:	4b85      	ldr	r3, [pc, #532]	; (8000688 <wifiConnect+0x254>)
  8000472:	681b      	ldr	r3, [r3, #0]
  8000474:	3301      	adds	r3, #1
  8000476:	4a84      	ldr	r2, [pc, #528]	; (8000688 <wifiConnect+0x254>)
  8000478:	6013      	str	r3, [r2, #0]
+		if(USART2->RDR=='\n')
  800047a:	e7e0      	b.n	800043e <wifiConnect+0xa>
+			break;
  800047c:	bf00      	nop
+
+
+
+	//while(!(USART2->ISR & 0x00000020));  // check that data recevied
+
+	name_of_wifi[0]='"';
  800047e:	4b81      	ldr	r3, [pc, #516]	; (8000684 <wifiConnect+0x250>)
  8000480:	2222      	movs	r2, #34	; 0x22
  8000482:	701a      	strb	r2, [r3, #0]
+	name_of_wifi[counter]='"';         // demands of the wifi modem
  8000484:	4b7e      	ldr	r3, [pc, #504]	; (8000680 <wifiConnect+0x24c>)
  8000486:	681b      	ldr	r3, [r3, #0]
  8000488:	4a7e      	ldr	r2, [pc, #504]	; (8000684 <wifiConnect+0x250>)
  800048a:	2122      	movs	r1, #34	; 0x22
  800048c:	54d1      	strb	r1, [r2, r3]
+	name_of_wifi[counter+1]=',';       // demands of the wifi modem
  800048e:	4b7c      	ldr	r3, [pc, #496]	; (8000680 <wifiConnect+0x24c>)
  8000490:	681b      	ldr	r3, [r3, #0]
  8000492:	3301      	adds	r3, #1
  8000494:	4a7b      	ldr	r2, [pc, #492]	; (8000684 <wifiConnect+0x250>)
  8000496:	212c      	movs	r1, #44	; 0x2c
  8000498:	54d1      	strb	r1, [r2, r3]
+	counter=0;
  800049a:	4b79      	ldr	r3, [pc, #484]	; (8000680 <wifiConnect+0x24c>)
  800049c:	2200      	movs	r2, #0
  800049e:	601a      	str	r2, [r3, #0]
+	password_of_wifi[counter]='"';
  80004a0:	4b77      	ldr	r3, [pc, #476]	; (8000680 <wifiConnect+0x24c>)
  80004a2:	681b      	ldr	r3, [r3, #0]
  80004a4:	4a79      	ldr	r2, [pc, #484]	; (800068c <wifiConnect+0x258>)
  80004a6:	2122      	movs	r1, #34	; 0x22
  80004a8:	54d1      	strb	r1, [r2, r3]
+	//dump=USART2->RDR;
+	//while(!(USART2->ISR & 0x00000020));  // check that data recevied
+	//USART2->RDR|=0xFFFFFFFF;
+	//USART2->RDR |='A';
+
+	print("please type the password of the wifi\n");
  80004aa:	4879      	ldr	r0, [pc, #484]	; (8000690 <wifiConnect+0x25c>)
  80004ac:	f7ff ff88 	bl	80003c0 <print>
+	count_dump=0;
  80004b0:	4b75      	ldr	r3, [pc, #468]	; (8000688 <wifiConnect+0x254>)
  80004b2:	2200      	movs	r2, #0
  80004b4:	601a      	str	r2, [r3, #0]
+
+	while(/*USART2->RDR!='\n'*/1)  // that means that the last char received
+		{
+			if(count_dump==1&&USART2->RDR=='\n')
  80004b6:	4b74      	ldr	r3, [pc, #464]	; (8000688 <wifiConnect+0x254>)
  80004b8:	681b      	ldr	r3, [r3, #0]
  80004ba:	2b01      	cmp	r3, #1
@@ -401,11 +448,17 @@ Disassembly of section .text:
  80004c2:	b29b      	uxth	r3, r3
  80004c4:	2b0a      	cmp	r3, #10
  80004c6:	d01a      	beq.n	80004fe <wifiConnect+0xca>
+			{
+				break;
+			}
+			count_dump=1;
  80004c8:	4b6f      	ldr	r3, [pc, #444]	; (8000688 <wifiConnect+0x254>)
  80004ca:	2201      	movs	r2, #1
  80004cc:	601a      	str	r2, [r3, #0]
+			print("im here\n");
  80004ce:	4871      	ldr	r0, [pc, #452]	; (8000694 <wifiConnect+0x260>)
  80004d0:	f7ff ff76 	bl	80003c0 <print>
+			password_of_wifi[counter]=USART2->RDR;
  80004d4:	4b69      	ldr	r3, [pc, #420]	; (800067c <wifiConnect+0x248>)
  80004d6:	8c9b      	ldrh	r3, [r3, #36]	; 0x24
  80004d8:	b29a      	uxth	r2, r3
@@ -414,40 +467,58 @@ Disassembly of section .text:
  80004de:	b2d1      	uxtb	r1, r2
  80004e0:	4a6a      	ldr	r2, [pc, #424]	; (800068c <wifiConnect+0x258>)
  80004e2:	54d1      	strb	r1, [r2, r3]
+			while(!(USART2->ISR & 0x00000020));  // check that data recevied
  80004e4:	bf00      	nop
  80004e6:	4b65      	ldr	r3, [pc, #404]	; (800067c <wifiConnect+0x248>)
  80004e8:	69db      	ldr	r3, [r3, #28]
  80004ea:	f003 0320 	and.w	r3, r3, #32
  80004ee:	2b00      	cmp	r3, #0
  80004f0:	d0f9      	beq.n	80004e6 <wifiConnect+0xb2>
+			counter++;
  80004f2:	4b63      	ldr	r3, [pc, #396]	; (8000680 <wifiConnect+0x24c>)
  80004f4:	681b      	ldr	r3, [r3, #0]
  80004f6:	3301      	adds	r3, #1
  80004f8:	4a61      	ldr	r2, [pc, #388]	; (8000680 <wifiConnect+0x24c>)
  80004fa:	6013      	str	r3, [r2, #0]
+			if(count_dump==1&&USART2->RDR=='\n')
  80004fc:	e7db      	b.n	80004b6 <wifiConnect+0x82>
+				break;
  80004fe:	bf00      	nop
+
+		}
+	//print("im here\n");
+	password_of_wifi[counter]='"';
  8000500:	4b5f      	ldr	r3, [pc, #380]	; (8000680 <wifiConnect+0x24c>)
  8000502:	681b      	ldr	r3, [r3, #0]
  8000504:	4a61      	ldr	r2, [pc, #388]	; (800068c <wifiConnect+0x258>)
  8000506:	2122      	movs	r1, #34	; 0x22
  8000508:	54d1      	strb	r1, [r2, r3]
+	password_of_wifi[counter+1]='\r';       // demands of the wifi modem
  800050a:	4b5d      	ldr	r3, [pc, #372]	; (8000680 <wifiConnect+0x24c>)
  800050c:	681b      	ldr	r3, [r3, #0]
  800050e:	3301      	adds	r3, #1
  8000510:	4a5e      	ldr	r2, [pc, #376]	; (800068c <wifiConnect+0x258>)
  8000512:	210d      	movs	r1, #13
  8000514:	54d1      	strb	r1, [r2, r3]
+	password_of_wifi[counter+2]='\n';		// demands of the wifi modem
  8000516:	4b5a      	ldr	r3, [pc, #360]	; (8000680 <wifiConnect+0x24c>)
  8000518:	681b      	ldr	r3, [r3, #0]
  800051a:	3302      	adds	r3, #2
  800051c:	4a5b      	ldr	r2, [pc, #364]	; (800068c <wifiConnect+0x258>)
  800051e:	210a      	movs	r1, #10
  8000520:	54d1      	strb	r1, [r2, r3]
+	counter=0;
  8000522:	4b57      	ldr	r3, [pc, #348]	; (8000680 <wifiConnect+0x24c>)
  8000524:	2200      	movs	r2, #0
  8000526:	601a      	str	r2, [r3, #0]
+
+
+	//Connecting the Wifi
+
+	while(config_one[counter]!='\0')
  8000528:	e012      	b.n	8000550 <wifiConnect+0x11c>
+	{
+		USART1->TDR=config_one[counter];  // input command 'AT+CWMODE=1'
  800052a:	4b55      	ldr	r3, [pc, #340]	; (8000680 <wifiConnect+0x24c>)
  800052c:	681b      	ldr	r3, [r3, #0]
  800052e:	4a5a      	ldr	r2, [pc, #360]	; (8000698 <wifiConnect+0x264>)
@@ -455,27 +526,37 @@ Disassembly of section .text:
  8000532:	4b5a      	ldr	r3, [pc, #360]	; (800069c <wifiConnect+0x268>)
  8000534:	b292      	uxth	r2, r2
  8000536:	851a      	strh	r2, [r3, #40]	; 0x28
+		while(!(USART1->ISR & 0x00000080));
  8000538:	bf00      	nop
  800053a:	4b58      	ldr	r3, [pc, #352]	; (800069c <wifiConnect+0x268>)
  800053c:	69db      	ldr	r3, [r3, #28]
  800053e:	f003 0380 	and.w	r3, r3, #128	; 0x80
  8000542:	2b00      	cmp	r3, #0
  8000544:	d0f9      	beq.n	800053a <wifiConnect+0x106>
+		counter++;
  8000546:	4b4e      	ldr	r3, [pc, #312]	; (8000680 <wifiConnect+0x24c>)
  8000548:	681b      	ldr	r3, [r3, #0]
  800054a:	3301      	adds	r3, #1
  800054c:	4a4c      	ldr	r2, [pc, #304]	; (8000680 <wifiConnect+0x24c>)
  800054e:	6013      	str	r3, [r2, #0]
+	while(config_one[counter]!='\0')
  8000550:	4b4b      	ldr	r3, [pc, #300]	; (8000680 <wifiConnect+0x24c>)
  8000552:	681b      	ldr	r3, [r3, #0]
  8000554:	4a50      	ldr	r2, [pc, #320]	; (8000698 <wifiConnect+0x264>)
  8000556:	5cd3      	ldrb	r3, [r2, r3]
  8000558:	2b00      	cmp	r3, #0
  800055a:	d1e6      	bne.n	800052a <wifiConnect+0xf6>
+
+
+	}
+	counter=0;
  800055c:	4b48      	ldr	r3, [pc, #288]	; (8000680 <wifiConnect+0x24c>)
  800055e:	2200      	movs	r2, #0
  8000560:	601a      	str	r2, [r3, #0]
+	while(config_two[counter]!='\0')
  8000562:	e012      	b.n	800058a <wifiConnect+0x156>
+	{
+		USART1->TDR=config_one[counter];  // input command 'AT+CWJAP='
  8000564:	4b46      	ldr	r3, [pc, #280]	; (8000680 <wifiConnect+0x24c>)
  8000566:	681b      	ldr	r3, [r3, #0]
  8000568:	4a4b      	ldr	r2, [pc, #300]	; (8000698 <wifiConnect+0x264>)
@@ -483,27 +564,37 @@ Disassembly of section .text:
  800056c:	4b4b      	ldr	r3, [pc, #300]	; (800069c <wifiConnect+0x268>)
  800056e:	b292      	uxth	r2, r2
  8000570:	851a      	strh	r2, [r3, #40]	; 0x28
+		while(!(USART1->ISR & 0x00000080));
  8000572:	bf00      	nop
  8000574:	4b49      	ldr	r3, [pc, #292]	; (800069c <wifiConnect+0x268>)
  8000576:	69db      	ldr	r3, [r3, #28]
  8000578:	f003 0380 	and.w	r3, r3, #128	; 0x80
  800057c:	2b00      	cmp	r3, #0
  800057e:	d0f9      	beq.n	8000574 <wifiConnect+0x140>
+		counter++;
  8000580:	4b3f      	ldr	r3, [pc, #252]	; (8000680 <wifiConnect+0x24c>)
  8000582:	681b      	ldr	r3, [r3, #0]
  8000584:	3301      	adds	r3, #1
  8000586:	4a3e      	ldr	r2, [pc, #248]	; (8000680 <wifiConnect+0x24c>)
  8000588:	6013      	str	r3, [r2, #0]
+	while(config_two[counter]!='\0')
  800058a:	4b3d      	ldr	r3, [pc, #244]	; (8000680 <wifiConnect+0x24c>)
  800058c:	681b      	ldr	r3, [r3, #0]
  800058e:	4a44      	ldr	r2, [pc, #272]	; (80006a0 <wifiConnect+0x26c>)
  8000590:	5cd3      	ldrb	r3, [r2, r3]
  8000592:	2b00      	cmp	r3, #0
  8000594:	d1e6      	bne.n	8000564 <wifiConnect+0x130>
+
+	}
+	counter=0;
  8000596:	4b3a      	ldr	r3, [pc, #232]	; (8000680 <wifiConnect+0x24c>)
  8000598:	2200      	movs	r2, #0
  800059a:	601a      	str	r2, [r3, #0]
+
+	while(name_of_wifi[counter]!=',')
  800059c:	e012      	b.n	80005c4 <wifiConnect+0x190>
+	{
+	   USART1->TDR=name_of_wifi[counter];      //input the name of the wifi
  800059e:	4b38      	ldr	r3, [pc, #224]	; (8000680 <wifiConnect+0x24c>)
  80005a0:	681b      	ldr	r3, [r3, #0]
  80005a2:	4a38      	ldr	r2, [pc, #224]	; (8000684 <wifiConnect+0x250>)
@@ -511,23 +602,30 @@ Disassembly of section .text:
  80005a6:	4b3d      	ldr	r3, [pc, #244]	; (800069c <wifiConnect+0x268>)
  80005a8:	b292      	uxth	r2, r2
  80005aa:	851a      	strh	r2, [r3, #40]	; 0x28
+	   while(!(USART1->ISR & 0x00000080));
  80005ac:	bf00      	nop
  80005ae:	4b3b      	ldr	r3, [pc, #236]	; (800069c <wifiConnect+0x268>)
  80005b0:	69db      	ldr	r3, [r3, #28]
  80005b2:	f003 0380 	and.w	r3, r3, #128	; 0x80
  80005b6:	2b00      	cmp	r3, #0
  80005b8:	d0f9      	beq.n	80005ae <wifiConnect+0x17a>
+	   counter++;
  80005ba:	4b31      	ldr	r3, [pc, #196]	; (8000680 <wifiConnect+0x24c>)
  80005bc:	681b      	ldr	r3, [r3, #0]
  80005be:	3301      	adds	r3, #1
  80005c0:	4a2f      	ldr	r2, [pc, #188]	; (8000680 <wifiConnect+0x24c>)
  80005c2:	6013      	str	r3, [r2, #0]
+	while(name_of_wifi[counter]!=',')
  80005c4:	4b2e      	ldr	r3, [pc, #184]	; (8000680 <wifiConnect+0x24c>)
  80005c6:	681b      	ldr	r3, [r3, #0]
  80005c8:	4a2e      	ldr	r2, [pc, #184]	; (8000684 <wifiConnect+0x250>)
  80005ca:	5cd3      	ldrb	r3, [r2, r3]
  80005cc:	2b2c      	cmp	r3, #44	; 0x2c
  80005ce:	d1e6      	bne.n	800059e <wifiConnect+0x16a>
+
+	}
+
+	USART1->TDR=name_of_wifi[counter]; // input the last char of the name of the wifi
  80005d0:	4b2b      	ldr	r3, [pc, #172]	; (8000680 <wifiConnect+0x24c>)
  80005d2:	681b      	ldr	r3, [r3, #0]
  80005d4:	4a2b      	ldr	r2, [pc, #172]	; (8000684 <wifiConnect+0x250>)
@@ -535,16 +633,22 @@ Disassembly of section .text:
  80005d8:	4b30      	ldr	r3, [pc, #192]	; (800069c <wifiConnect+0x268>)
  80005da:	b292      	uxth	r2, r2
  80005dc:	851a      	strh	r2, [r3, #40]	; 0x28
+	while(!(USART1->ISR & 0x00000080));
  80005de:	bf00      	nop
  80005e0:	4b2e      	ldr	r3, [pc, #184]	; (800069c <wifiConnect+0x268>)
  80005e2:	69db      	ldr	r3, [r3, #28]
  80005e4:	f003 0380 	and.w	r3, r3, #128	; 0x80
  80005e8:	2b00      	cmp	r3, #0
  80005ea:	d0f9      	beq.n	80005e0 <wifiConnect+0x1ac>
+	counter=0;
  80005ec:	4b24      	ldr	r3, [pc, #144]	; (8000680 <wifiConnect+0x24c>)
  80005ee:	2200      	movs	r2, #0
  80005f0:	601a      	str	r2, [r3, #0]
+
+	while(password_of_wifi[counter]!='\n')
  80005f2:	e012      	b.n	800061a <wifiConnect+0x1e6>
+	{
+		USART1->TDR=password_of_wifi[counter]; // input the password of the wifi
  80005f4:	4b22      	ldr	r3, [pc, #136]	; (8000680 <wifiConnect+0x24c>)
  80005f6:	681b      	ldr	r3, [r3, #0]
  80005f8:	4a24      	ldr	r2, [pc, #144]	; (800068c <wifiConnect+0x258>)
@@ -552,23 +656,30 @@ Disassembly of section .text:
  80005fc:	4b27      	ldr	r3, [pc, #156]	; (800069c <wifiConnect+0x268>)
  80005fe:	b292      	uxth	r2, r2
  8000600:	851a      	strh	r2, [r3, #40]	; 0x28
+		while(!(USART1->ISR & 0x00000080));
  8000602:	bf00      	nop
  8000604:	4b25      	ldr	r3, [pc, #148]	; (800069c <wifiConnect+0x268>)
  8000606:	69db      	ldr	r3, [r3, #28]
  8000608:	f003 0380 	and.w	r3, r3, #128	; 0x80
  800060c:	2b00      	cmp	r3, #0
  800060e:	d0f9      	beq.n	8000604 <wifiConnect+0x1d0>
+		counter++;
  8000610:	4b1b      	ldr	r3, [pc, #108]	; (8000680 <wifiConnect+0x24c>)
  8000612:	681b      	ldr	r3, [r3, #0]
  8000614:	3301      	adds	r3, #1
  8000616:	4a1a      	ldr	r2, [pc, #104]	; (8000680 <wifiConnect+0x24c>)
  8000618:	6013      	str	r3, [r2, #0]
+	while(password_of_wifi[counter]!='\n')
  800061a:	4b19      	ldr	r3, [pc, #100]	; (8000680 <wifiConnect+0x24c>)
  800061c:	681b      	ldr	r3, [r3, #0]
  800061e:	4a1b      	ldr	r2, [pc, #108]	; (800068c <wifiConnect+0x258>)
  8000620:	5cd3      	ldrb	r3, [r2, r3]
  8000622:	2b0a      	cmp	r3, #10
  8000624:	d1e6      	bne.n	80005f4 <wifiConnect+0x1c0>
+
+	}
+
+	USART1->TDR=password_of_wifi[counter]; // input the last char of the password of the wifi
  8000626:	4b16      	ldr	r3, [pc, #88]	; (8000680 <wifiConnect+0x24c>)
  8000628:	681b      	ldr	r3, [r3, #0]
  800062a:	4a18      	ldr	r2, [pc, #96]	; (800068c <wifiConnect+0x258>)
@@ -576,33 +687,46 @@ Disassembly of section .text:
  800062e:	4b1b      	ldr	r3, [pc, #108]	; (800069c <wifiConnect+0x268>)
  8000630:	b292      	uxth	r2, r2
  8000632:	851a      	strh	r2, [r3, #40]	; 0x28
+	while(!(USART1->ISR & 0x00000080));
  8000634:	bf00      	nop
  8000636:	4b19      	ldr	r3, [pc, #100]	; (800069c <wifiConnect+0x268>)
  8000638:	69db      	ldr	r3, [r3, #28]
  800063a:	f003 0380 	and.w	r3, r3, #128	; 0x80
  800063e:	2b00      	cmp	r3, #0
  8000640:	d0f9      	beq.n	8000636 <wifiConnect+0x202>
+	counter=0;
  8000642:	4b0f      	ldr	r3, [pc, #60]	; (8000680 <wifiConnect+0x24c>)
  8000644:	2200      	movs	r2, #0
  8000646:	601a      	str	r2, [r3, #0]
+
+	while(USART1->RDR!='\n')    // printing the answer from the modem
  8000648:	e00d      	b.n	8000666 <wifiConnect+0x232>
+	{
+		print("%c\n",USART1->RDR);
  800064a:	4b14      	ldr	r3, [pc, #80]	; (800069c <wifiConnect+0x268>)
  800064c:	8c9b      	ldrh	r3, [r3, #36]	; 0x24
  800064e:	b29b      	uxth	r3, r3
  8000650:	4619      	mov	r1, r3
  8000652:	4814      	ldr	r0, [pc, #80]	; (80006a4 <wifiConnect+0x270>)
  8000654:	f7ff feb4 	bl	80003c0 <print>
+		while(!(USART1->ISR & 0x00000020));  // check that data recevied
  8000658:	bf00      	nop
  800065a:	4b10      	ldr	r3, [pc, #64]	; (800069c <wifiConnect+0x268>)
  800065c:	69db      	ldr	r3, [r3, #28]
  800065e:	f003 0320 	and.w	r3, r3, #32
  8000662:	2b00      	cmp	r3, #0
  8000664:	d0f9      	beq.n	800065a <wifiConnect+0x226>
+	while(USART1->RDR!='\n')    // printing the answer from the modem
  8000666:	4b0d      	ldr	r3, [pc, #52]	; (800069c <wifiConnect+0x268>)
  8000668:	8c9b      	ldrh	r3, [r3, #36]	; 0x24
  800066a:	b29b      	uxth	r3, r3
  800066c:	2b0a      	cmp	r3, #10
  800066e:	d1ec      	bne.n	800064a <wifiConnect+0x216>
+	}
+
+
+
+}
  8000670:	bf00      	nop
  8000672:	bf00      	nop
  8000674:	bd80      	pop	{r7, pc}

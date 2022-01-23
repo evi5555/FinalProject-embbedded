@@ -1057,16 +1057,16 @@ LOAD c:/st/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_line    0x0000000000001242      0x84d ./Src/wifi.o
  .debug_line    0x0000000000001a8f       0x84 ./Startup/startup_stm32f303retx.o
 
-.debug_str      0x0000000000000000    0x87208
+.debug_str      0x0000000000000000    0x87256
  .debug_str     0x0000000000000000    0x87008 ./Src/led.o
                                       0x87410 (size before relaxing)
  .debug_str     0x0000000000087008       0xa1 ./Src/main.o
                                       0x82869 (size before relaxing)
  .debug_str     0x00000000000870a9       0xbe ./Src/uart.o
                                       0x87423 (size before relaxing)
- .debug_str     0x0000000000087167       0x70 ./Src/wifi.o
-                                      0x86e32 (size before relaxing)
- .debug_str     0x00000000000871d7       0x31 ./Startup/startup_stm32f303retx.o
+ .debug_str     0x0000000000087167       0xbe ./Src/wifi.o
+                                      0x86e52 (size before relaxing)
+ .debug_str     0x0000000000087225       0x31 ./Startup/startup_stm32f303retx.o
                                          0x68 (size before relaxing)
 
 .comment        0x0000000000000000       0x53
