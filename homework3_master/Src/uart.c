@@ -11,6 +11,40 @@
 #include "wifi.h"
 // This buffer is used by the printf-like print function.
 static char A_Buffer[USART2_SIZE_OF_PRINT_BUFFER];
+static char name_of_wifi[40];
+static char password_of_wifi[40];
+static char config_one[ ]={'A','T','+','C','W','M','O','D','E','=','1','\r','\n','\0'};
+static char config_two[ ]={'A','T','+','C','W','J','A','P','=','\0'};
+int counter=1;
+int count_dump=0;
+char dump[100];
+char temp_c;
+static int flag_name=0;
+static int flag_password=0;
+
+
+
+
+void wifiConnect()
+{
+	if(flag_name==0&&flag_password==0)
+	{
+		name_of_wifi[0]='"';
+		password_of_wifi[0]='"';
+		print("please type the name of the wifi now\n");
+		while(flag_name!=1);
+	}
+	 if(flag_name==1&&flag_password==0)
+	{
+		print("please type the password of the wifi\n");
+		while(flag_password!=1);
+		strcat(name_of_wifi,password_of_wifi);
+	}
+
+
+
+
+}
 
 
 
@@ -50,19 +84,49 @@ void uartComputerInit()
 	    // Enable USART2 and its RX and TX functionality.
 	    // Also enable the RX interrupt.
 	    USART2->CR1 = 0x0000002D;
-	    wifiConnect();
 	    NVIC_EnableIRQ(USART2_IRQn);
+	    wifiConnect();
 }
 
 
-void USART2_EXTI26_IRQHandler(void)  // interrupt uart for proccessor
+void USART2_EXTI26_IRQHandler(void)  // interrupt uart for computer
 {
-
+		temp_c=USART2->RDR;
+		if(temp_c=='\n'&&flag_name==0)
+		{
+			flag_name=1;
+			name_of_wifi[counter]='"';         // demands of the wifi modem
+			name_of_wifi[counter+1]=',';       // demands of the wifi modem
+			counter=1;
+			print("elnini\n%c",temp_c);
+		}
+		else if(temp_c!='\n'&&flag_name==0)
+		{
+			name_of_wifi[counter]=temp_c;
+			print("%c",temp_c);
+			counter++;
+		}
+		else if(temp_c!='\n'&&flag_name==1) // that means that we need to configure the password
+		{
+			password_of_wifi[counter]=temp_c;
+			counter++;
+		}
+		else if(temp_c=='\n'&&flag_name==1)  // that means we finish configure password
+		{
+			flag_password=1;
+			password_of_wifi[counter]='"';
+			password_of_wifi[counter+1]='\r';       // demands of the wifi modem
+			password_of_wifi[counter+2]='\n';		// demands of the wifi modem
+			counter=0;
+			print("%s",name_of_wifi);
+			print("%s",password_of_wifi);
+		}
 
 }
 
-void USART1_EXTI25_IRQHandler(void)   // interrupt uart for computer
+void USART1_EXTI25_IRQHandler(void)   // interrupt uart for proccessor
 {
+
 
 
 
