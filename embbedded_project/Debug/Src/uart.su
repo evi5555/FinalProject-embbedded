@@ -1,8 +1,10 @@
 core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
-uart.c:28:6:wifiConnect	8	static
-uart.c:52:6:uartProccessorInit	8	static
-uart.c:72:6:uartComputerInit	8	static
-uart.c:91:6:USART2_EXTI26_IRQHandler	8	static
-uart.c:126:6:USART1_EXTI25_IRQHandler	4	static
-uart.c:135:6:print	16	static
-uart.c:144:6:USART2_print	16	static
+uart.c:35:6:wifiDetail	8	static
+uart.c:57:6:printResponse	8	static
+uart.c:82:6:wifiConnect	16	static
+uart.c:128:6:uartProccessorInit	8	static
+uart.c:148:6:uartComputerInit	8	static
+uart.c:167:6:USART2_EXTI26_IRQHandler	4	static
+uart.c:200:6:USART1_EXTI25_IRQHandler	4	static
+uart.c:215:6:print	16	static
+uart.c:224:6:USART2_print	16	static

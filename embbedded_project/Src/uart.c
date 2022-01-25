@@ -14,18 +14,25 @@ static char A_Buffer[USART2_SIZE_OF_PRINT_BUFFER];
 static char name_of_wifi[40];
 static char password_of_wifi[40];
 static char config_one[ ]={'A','T','+','C','W','M','O','D','E','=','1','\r','\n','\0'};
-static char config_two[ ]={'A','T','+','C','W','J','A','P','=','\0'};
+static char config_two[30]={'A','T','+','C','W','J','A','P','=','\0'};
+static char at[8]={'A','T','E','0','\r','\n','\0'};
+static char wifi_buffer[200];
+int count_at=0;
 int counter=1;
 int count_dump=0;
+int count_wifi_buffer=0;
+int count_wifi_buftwo=0;
 char dump[100];
 char temp_c;
+char temp_uart;
 static int flag_name=0;
 static int flag_password=0;
+char *ret;
 
 
 
 
-void wifiConnect()
+void wifiDetail()
 {
 	if(flag_name==0&&flag_password==0)
 	{
@@ -39,9 +46,77 @@ void wifiConnect()
 		print("please type the password of the wifi\n");
 		while(flag_password!=1);
 		strcat(name_of_wifi,password_of_wifi);
+		wifiConnect(name_of_wifi);
 	}
 
 
+
+
+}
+
+void printResponse()
+{
+
+	while(ret==NULL)                             // check if there is '\n' means that command over
+		{
+			ret=memchr(wifi_buffer,'\n',200);
+		}
+	while(wifi_buffer[count_wifi_buftwo]!='\r'&&wifi_buffer[count_wifi_buftwo+1]!='\n')     // print the command
+		{
+			print("%c",wifi_buffer[count_wifi_buftwo]);
+			count_wifi_buftwo++;
+			if(wifi_buffer[count_wifi_buftwo]=='\n')
+			{
+				wifi_buffer[count_wifi_buftwo]=' ';
+			}
+
+		}
+	wifi_buffer[count_wifi_buftwo+1]=' ';
+
+
+	count_wifi_buftwo++;
+	ret=NULL;
+
+
+}
+void wifiConnect(char* wifi_arr)
+{
+	while(at[count_at]!='\0')
+	{
+		USART1->TDR=at[count_at];        // input command 'ATE0'
+		while(!(USART1->ISR & 0x00000080));
+		count_at++;
+	}
+	printResponse();
+
+	strcat(config_two,wifi_arr);
+	//print("%s",config_two);
+	while(config_one[counter]!='\0')
+		{
+			USART1->TDR=config_one[counter];  // input command 'AT+CWMODE=1'
+			while(!(USART1->ISR & 0x00000080));
+			counter++;
+
+		}
+	printResponse();
+	counter=0;
+
+	while(config_two[counter]!='\0')
+		{
+			USART1->TDR=config_two[counter];  // input command 'AT+CWJAP=wifi details'
+			while(!(USART1->ISR & 0x00000080));
+			counter++;
+		}
+	printResponse();
+	printResponse();
+	printResponse();
+	printResponse();
+	printResponse();
+	printResponse();
+	printResponse();
+	//printResponse();
+
+		counter=0;
 
 
 }
@@ -85,7 +160,7 @@ void uartComputerInit()
 	    // Also enable the RX interrupt.
 	    USART2->CR1 = 0x0000002D;
 	    NVIC_EnableIRQ(USART2_IRQn);
-	    wifiConnect();
+	    wifiDetail();
 }
 
 
@@ -98,12 +173,10 @@ void USART2_EXTI26_IRQHandler(void)  // interrupt uart for computer
 			name_of_wifi[counter]='"';         // demands of the wifi modem
 			name_of_wifi[counter+1]=',';       // demands of the wifi modem
 			counter=1;
-			print("elnini\n%c",temp_c);
 		}
 		else if(temp_c!='\n'&&flag_name==0)
 		{
 			name_of_wifi[counter]=temp_c;
-			print("%c",temp_c);
 			counter++;
 		}
 		else if(temp_c!='\n'&&flag_name==1) // that means that we need to configure the password
@@ -118,14 +191,20 @@ void USART2_EXTI26_IRQHandler(void)  // interrupt uart for computer
 			password_of_wifi[counter+1]='\r';       // demands of the wifi modem
 			password_of_wifi[counter+2]='\n';		// demands of the wifi modem
 			counter=0;
-			print("%s",name_of_wifi);
-			print("%s",password_of_wifi);
+			//print("%s",name_of_wifi);
+			//print("%s",password_of_wifi);
 		}
 
 }
 
 void USART1_EXTI25_IRQHandler(void)   // interrupt uart for proccessor
 {
+
+		wifi_buffer[count_wifi_buffer]=USART1->RDR;
+		count_wifi_buffer++;
+
+
+
 
 
 

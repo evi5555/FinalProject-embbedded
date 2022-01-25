@@ -60,8 +60,8 @@ all: main-build
 main-build: homework3_master.elf secondary-outputs
 
 # Tool invocations
-homework3_master.elf: $(OBJS) $(USER_OBJS) C:\Users\97250\Desktop\embedded\FinalProject-embbedded\homework3_master\STM32F303RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "homework3_master.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\97250\Desktop\embedded\FinalProject-embbedded\homework3_master\STM32F303RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="homework3_master.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+homework3_master.elf: $(OBJS) $(USER_OBJS) C:\Users\97250\Desktop\embedded\FinalProject-embbedded\embbedded_project\STM32F303RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "homework3_master.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\97250\Desktop\embedded\FinalProject-embbedded\embbedded_project\STM32F303RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="homework3_master.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
