@@ -23,6 +23,7 @@ char dump[100];
 char temp_c;
 char temp_uart;
 char *ret;
+int flag_ok=0;
 static int flag_name=0;
 static int flag_password=0;
 
@@ -44,7 +45,6 @@ void sendCommand(char *send_arr)  // send command to the modem
 			count_arr++;
 		}
 	printResponse();
-
 
 }
 
@@ -83,6 +83,7 @@ void printResponse()
 			if(wifi_buffer[count_wifi_buftwo-1]=='O'&&wifi_buffer[count_wifi_buftwo]=='K')
 			{
 				print("\n");
+				flag_ok=1;
 			}
 
 			if(wifi_buffer[count_wifi_buftwo]=='\n')
@@ -94,9 +95,20 @@ void printResponse()
 		}
 	wifi_buffer[count_wifi_buftwo+1]=' ';
 
+	if(flag_ok!=1)
+	{
+		count_wifi_buftwo++;
+		ret=NULL;
+		printResponse();
+	}
+	else if(flag_ok==1)
+	{
+		flag_ok=0;
+		count_wifi_buftwo++;
+		ret=NULL;
+	}
 
-	count_wifi_buftwo++;
-	ret=NULL;
+
 
 
 }
@@ -209,5 +221,6 @@ void USART2_print(const char *p_data)
         while(!(USART2->ISR & 0x00000080));
 	}
 }
+
 
 
