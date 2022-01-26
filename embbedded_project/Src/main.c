@@ -30,6 +30,15 @@ int main(void)
 {
 	uartProccessorInit();
 	uartComputerInit();
+	//sendCommand("AT+CIPMUX=1\r\n"); //configure server
+	//sendCommand("AT+CIPSERVER=1,80\r\n"); // configure server
+	//printResponse();
+	//printResponse();
+	//printResponse();
+	//printResponse();
+	//printResponse();
+	//printResponse();
+
 
 
 

@@ -43,6 +43,7 @@ void sendCommand(char *send_arr)  // send command to the modem
 			while(!(USART1->ISR & 0x00000080));
 			count_arr++;
 		}
+	printResponse();
 
 
 }

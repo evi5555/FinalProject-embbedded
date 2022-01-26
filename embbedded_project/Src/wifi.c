@@ -26,22 +26,20 @@ int count=0;
 void wifiConnect(char* wifi_arr)
 {
 	sendCommand(at); // input command 'ATE0'
-	printResponse(); // print response
 
 	strcat(config_two,wifi_arr);  // union between wifi details and 'AT+CWJAP COMMAND
 
 	sendCommand(config_one); // input command 'AT+CWMODE=1'
-	printResponse();         // print response
 	count=0;
 
 	sendCommand(config_two); // input command 'AT+CWJAP=wifi details'
-	printResponse();      // print response
-	printResponse();
-	printResponse();
-	printResponse();
-	printResponse();
-	printResponse();
-	printResponse();
+	//printResponse();      // print response
+	//printResponse();
+	//printResponse();
+	//printResponse();
+	//printResponse();
+	//printResponse();
+
 
 
 		count=0;
