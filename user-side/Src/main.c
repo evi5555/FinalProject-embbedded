@@ -11,28 +11,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-static char A_Buffer[128];
 
-
-
-void print(char *p_format, ...)
-{
-	va_list p_variables;
-	va_start(p_variables, p_format);
-	(void)vsprintf(A_Buffer, p_format, p_variables);
-    USART2_print(A_Buffer);
-}
-
-
-void USART2_print(const char *p_data)
-{
-	while(*p_data != '\0')
-	{
-		USART2->TDR = *p_data;
-        p_data++;
-        while(!(USART2->ISR & 0x00000080));
-	}
-}
 
 
 

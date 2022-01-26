@@ -5,13 +5,25 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Src/main.c 
+../Src/catch.c \
+../Src/led.c \
+../Src/main.c \
+../Src/uart.c \
+../Src/wifi.c 
 
 OBJS += \
-./Src/main.o 
+./Src/catch.o \
+./Src/led.o \
+./Src/main.o \
+./Src/uart.o \
+./Src/wifi.o 
 
 C_DEPS += \
-./Src/main.d 
+./Src/catch.d \
+./Src/led.d \
+./Src/main.d \
+./Src/uart.d \
+./Src/wifi.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
