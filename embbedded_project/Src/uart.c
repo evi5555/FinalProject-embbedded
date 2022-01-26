@@ -30,7 +30,10 @@ static int flag_password=0;
 char *ret;
 
 
-
+void printToComputer(char *printer)
+{
+	print("%s\n",printer);
+}
 
 void wifiDetail() // input the wifi details
 {
@@ -77,11 +80,16 @@ void printResponse()
 	while(wifi_buffer[count_wifi_buftwo]!='\r'&&wifi_buffer[count_wifi_buftwo+1]!='\n')     // print the command
 		{
 			print("%c",wifi_buffer[count_wifi_buftwo]);
-			count_wifi_buftwo++;
+			if(wifi_buffer[count_wifi_buftwo-1]=='O'&&wifi_buffer[count_wifi_buftwo]=='K')
+			{
+				print("\n");
+			}
+
 			if(wifi_buffer[count_wifi_buftwo]=='\n')
 			{
 				wifi_buffer[count_wifi_buftwo]=' ';
 			}
+			count_wifi_buftwo++;
 
 		}
 	wifi_buffer[count_wifi_buftwo+1]=' ';
@@ -154,6 +162,7 @@ void uartComputerInit()
 	    // Also enable the RX interrupt.
 	    USART2->CR1 = 0x0000002D;
 	    NVIC_EnableIRQ(USART2_IRQn);
+	    printToComputer("server-side program");
 	    wifiDetail();
 }
 

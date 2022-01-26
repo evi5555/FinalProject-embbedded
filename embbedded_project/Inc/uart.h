@@ -12,10 +12,14 @@
 void uartComputerInit();
 void printResponse();
 
+void printToComputer(char *print);
+
 void uartProccessorInit();
+
 void wifiDetail();
 
 void USART2_EXTI26_IRQHandler(void);
+void sendCommand(char *send_arr);
 void wifiConnect(char* wifi_arr);
 
 
