@@ -101,10 +101,14 @@ void printResponse()
 		ret=NULL;
 		printResponse();
 	}
+	else if(flag_ok==1)
+	{
+		flag_ok=0;
+		count_wifi_buftwo++;
+		ret=NULL;
+	}
 
-	flag_ok=0;
-	count_wifi_buftwo++;
-	ret=NULL;
+
 
 
 }

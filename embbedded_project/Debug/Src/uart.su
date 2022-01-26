@@ -3,9 +3,9 @@ uart.c:31:6:printToComputer	16	static
 uart.c:38:6:sendCommand	24	static
 uart.c:51:6:wifiDetail	8	static
 uart.c:73:6:printResponse	8	static
-uart.c:114:6:uartProccessorInit	8	static
-uart.c:134:6:uartComputerInit	8	static
-uart.c:154:6:USART2_EXTI26_IRQHandler	4	static
-uart.c:187:6:USART1_EXTI25_IRQHandler	4	static
-uart.c:202:6:print	16	static
-uart.c:211:6:USART2_print	16	static
+uart.c:118:6:uartProccessorInit	8	static
+uart.c:138:6:uartComputerInit	8	static
+uart.c:158:6:USART2_EXTI26_IRQHandler	4	static
+uart.c:191:6:USART1_EXTI25_IRQHandler	4	static
+uart.c:206:6:print	16	static
+uart.c:215:6:USART2_print	16	static

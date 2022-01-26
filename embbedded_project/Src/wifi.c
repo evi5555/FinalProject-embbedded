@@ -33,18 +33,8 @@ void wifiConnect(char* wifi_arr)
 	count=0;
 
 	sendCommand(config_two); // input command 'AT+CWJAP=wifi details'
-	//printResponse();      // print response
-	//printResponse();
-	//printResponse();
-	//printResponse();
-	//printResponse();
-	//printResponse();
-
-
 
 		count=0;
-
-
 }
 
 
