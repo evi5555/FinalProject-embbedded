@@ -120,7 +120,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x11f ./Src/catch.o
  .debug_macro   0x0000000000000000    0x15353 ./Src/catch.o
  .debug_line    0x0000000000000000      0x417 ./Src/catch.o
- .debug_str     0x0000000000000000    0x82831 ./Src/catch.o
+ .debug_str     0x0000000000000000    0x82839 ./Src/catch.o
  .comment       0x0000000000000000       0x54 ./Src/catch.o
  .ARM.attributes
                 0x0000000000000000       0x39 ./Src/catch.o
@@ -1001,7 +1001,7 @@ LOAD c:/st/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x000000000000049d       0x34 c:/st/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libnosys.a(sbrk.o)
  .ARM.attributes
                 0x00000000000004d1       0x1e c:/st/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/hard/crtn.o
-OUTPUT(user_side.elf elf32-littlearm)
+OUTPUT(server_side.elf elf32-littlearm)
 LOAD linker stubs
 LOAD c:/st/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc.a
 LOAD c:/st/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a
@@ -1091,17 +1091,17 @@ LOAD c:/st/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_line    0x000000000000143d      0x673 ./Src/wifi.o
  .debug_line    0x0000000000001ab0       0x84 ./Startup/startup_stm32f303retx.o
 
-.debug_str      0x0000000000000000    0x87299
- .debug_str     0x0000000000000000    0x87018 ./Src/led.o
-                                      0x87420 (size before relaxing)
- .debug_str     0x0000000000087018       0x73 ./Src/main.o
-                                      0x82882 (size before relaxing)
- .debug_str     0x000000000008708b      0x195 ./Src/uart.o
-                                      0x87524 (size before relaxing)
- .debug_str     0x0000000000087220       0x48 ./Src/wifi.o
-                                      0x86df0 (size before relaxing)
- .debug_str     0x0000000000087268       0x31 ./Startup/startup_stm32f303retx.o
-                                         0x78 (size before relaxing)
+.debug_str      0x0000000000000000    0x872a1
+ .debug_str     0x0000000000000000    0x87020 ./Src/led.o
+                                      0x87428 (size before relaxing)
+ .debug_str     0x0000000000087020       0x73 ./Src/main.o
+                                      0x8288a (size before relaxing)
+ .debug_str     0x0000000000087093      0x195 ./Src/uart.o
+                                      0x8752c (size before relaxing)
+ .debug_str     0x0000000000087228       0x48 ./Src/wifi.o
+                                      0x86df8 (size before relaxing)
+ .debug_str     0x0000000000087270       0x31 ./Startup/startup_stm32f303retx.o
+                                         0x80 (size before relaxing)
 
 .comment        0x0000000000000000       0x53
  .comment       0x0000000000000000       0x53 ./Src/led.o

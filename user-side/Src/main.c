@@ -1,42 +1,63 @@
 /*****************************************************************************/
-/* Button main file                                                          */
+/* Button main file, with interrupts                                         */
 /* All references to the reference manual are to STM's RM0316, revision 8    */
 /*****************************************************************************/
 
 
 
 
+#include <catch.h>
+#include <led.h>
+#include <uart.h>
 #include "stm32f303xe.h"
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
+#include "types.h"
+#include "wifi.h"
+#define size_of_queue 10
 
+enum led_state{off,on,blink};
+enum event{connect_wifi,push_button,change_led_state};
 
-
+int event_queue[size_of_queue];
+int count_read=0;
+int count_write=0;
+int *p_read=event_queue;
+int *p_write=event_queue;
 
 
 
 
 int main(void)
 {
-    // Enable GPIOA clock (p. 148 in the reference manual).
-    RCC->AHBENR |= 0x000A0000;
-    // Configure GPIOA pin 5 as output
-    // (by default it will then be push pull, see p. 237 of the reference manual).
-    GPIOA->MODER |= 0x00000400;
-    // GPIOA pin 0 is connected to the motion sensor.
-    // No need to configure it, because by default it's an input.
+	uartProccessorInit();
+	uartComputerInit();
+
+
+
+
+
 
     while(1)
     {
-    	if(GPIOA->IDR & 0x00000001)
-        {
-            GPIOA->ODR |= 0x00000020;
-            print("there is a movement in the house,please check!\n");
-        }
-    	else
+    	/*
+    	while(p_read!=p_write) // in case buffer is not empty
     	{
-    		GPIOA->ODR &= ~0x00000020;
+    		                   //handle an event in the buffer
+
+    		if(count_read<size_of_queue-1) // in case its not the last place in the array
+    			{
+    		     	 p_read++;
+    		     	 count_read++;
+    			}
+    		else {                         // in case its the last place in the array
+        	     	 p_read=event_queue;
+        	     	 count_read=0;
+
+    	     	 }
     	}
+
+    }
+}
+
+*/
     }
 }

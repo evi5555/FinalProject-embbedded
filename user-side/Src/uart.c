@@ -11,12 +11,9 @@
 #include "wifi.h"
 // This buffer is used by the printf-like print function.
 static char A_Buffer[USART2_SIZE_OF_PRINT_BUFFER];
+static char wifi_buffer[10000];
 static char name_of_wifi[40];
 static char password_of_wifi[40];
-static char config_one[ ]={'A','T','+','C','W','M','O','D','E','=','1','\r','\n','\0'};
-static char config_two[30]={'A','T','+','C','W','J','A','P','=','\0'};
-static char at[8]={'A','T','E','0','\r','\n','\0'};
-static char wifi_buffer[10000];
 int count_at=0;
 int counter=1;
 int count_dump=0;
@@ -25,14 +22,29 @@ int count_wifi_buftwo=0;
 char dump[100];
 char temp_c;
 char temp_uart;
+char *ret;
 static int flag_name=0;
 static int flag_password=0;
-char *ret;
 
 
 void printToComputer(char *printer)
 {
 	print("%s\n",printer);
+}
+
+
+
+void sendCommand(char *send_arr)  // send command to the modem
+{
+	int count_arr=0;
+	while(send_arr[count_arr]!='\0')
+		{
+			USART1->TDR=send_arr[count_arr];
+			while(!(USART1->ISR & 0x00000080));
+			count_arr++;
+		}
+
+
 }
 
 void wifiDetail() // input the wifi details
@@ -53,19 +65,6 @@ void wifiDetail() // input the wifi details
 	}
 
 
-
-
-}
-
-void sendCommand(char *send_arr)  // send command to the modem
-{
-	int count_arr=0;
-	while(send_arr[count_arr]!='\0')
-		{
-			USART1->TDR=send_arr[count_arr];
-			while(!(USART1->ISR & 0x00000080));
-			count_arr++;
-		}
 
 
 }
@@ -100,31 +99,7 @@ void printResponse()
 
 
 }
-void wifiConnect(char* wifi_arr)
-{
-	sendCommand(at); // input command 'ATE0'
-	printResponse(); // print response
 
-	strcat(config_two,wifi_arr);  // union between wifi details and 'AT+CWJAP COMMAND
-
-	sendCommand(config_one); // input command 'AT+CWMODE=1'
-	printResponse();         // print response
-	counter=0;
-
-	sendCommand(config_two); // input command 'AT+CWJAP=wifi details'
-	printResponse();      // print response
-	printResponse();
-	printResponse();
-	printResponse();
-	printResponse();
-	printResponse();
-	printResponse();
-
-
-		counter=0;
-
-
-}
 
 
 void uartProccessorInit()

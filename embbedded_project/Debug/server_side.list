@@ -1,5 +1,5 @@
 
-homework3_master.elf:     file format elf32-littlearm
+server_side.elf:     file format elf32-littlearm
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
@@ -21,29 +21,29 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   8 .data         000000a0  20000000  08001160  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00002894  200000a0  08001200  000200a0  2**2
+  9 .bss          00002898  200000a0  08001200  000200a0  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  20002934  08001200  00022934  2**0
+ 10 ._user_heap_stack 00000600  20002938  08001200  00022938  2**0
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  000200a0  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00002566  00000000  00000000  000200d0  2**0
+ 12 .debug_info   00002f80  00000000  00000000  000200d0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00000612  00000000  00000000  00022636  2**0
+ 13 .debug_abbrev 000007fa  00000000  00000000  00023050  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 000000f0  00000000  00000000  00022c48  2**3
+ 14 .debug_aranges 00000110  00000000  00000000  00023850  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 000000b8  00000000  00000000  00022d38  2**3
+ 15 .debug_ranges 000000c8  00000000  00000000  00023960  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00001626  00000000  00000000  00022df0  2**0
+ 16 .debug_macro  000018ae  00000000  00000000  00023a28  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000014ef  00000000  00000000  00024416  2**0
+ 17 .debug_line   00001b34  00000000  00000000  000252d6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000872bb  00000000  00000000  00025905  2**0
+ 18 .debug_str    000872a1  00000000  00000000  00026e0a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000acbc0  2**0
+ 19 .comment      00000053  00000000  00000000  000ae0ab  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00000678  00000000  00000000  000acc14  2**2
+ 20 .debug_frame  000006a8  00000000  00000000  000ae100  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -172,9 +172,9 @@ int main(void)
  80002a0:	b580      	push	{r7, lr}
  80002a2:	af00      	add	r7, sp, #0
 	uartProccessorInit();
- 80002a4:	f000 f92c 	bl	8000500 <uartProccessorInit>
+ 80002a4:	f000 f8f6 	bl	8000494 <uartProccessorInit>
 	uartComputerInit();
- 80002a8:	f000 f956 	bl	8000558 <uartComputerInit>
+ 80002a8:	f000 f920 	bl	80004ec <uartComputerInit>
 
 
 
@@ -221,8 +221,8 @@ __STATIC_INLINE void __NVIC_EnableIRQ(IRQn_Type IRQn)
  80002e8:	e000e100 	.word	0xe000e100
 
 080002ec <printToComputer>:
+static int flag_name=0;
 static int flag_password=0;
-char *ret;
 
 
 void printToComputer(char *printer)
@@ -234,7 +234,7 @@ void printToComputer(char *printer)
 	print("%s\n",printer);
  80002f4:	6879      	ldr	r1, [r7, #4]
  80002f6:	4803      	ldr	r0, [pc, #12]	; (8000304 <printToComputer+0x18>)
- 80002f8:	f000 f9fc 	bl	80006f4 <print>
+ 80002f8:	f000 f9c6 	bl	8000688 <print>
 }
  80002fc:	bf00      	nop
  80002fe:	3708      	adds	r7, #8
@@ -242,134 +242,136 @@ void printToComputer(char *printer)
  8000302:	bd80      	pop	{r7, pc}
  8000304:	080010b4 	.word	0x080010b4
 
-08000308 <wifiDetail>:
-
-void wifiDetail() // input the wifi details
-{
- 8000308:	b580      	push	{r7, lr}
- 800030a:	af00      	add	r7, sp, #0
-	if(flag_name==0&&flag_password==0)
- 800030c:	4b17      	ldr	r3, [pc, #92]	; (800036c <wifiDetail+0x64>)
- 800030e:	681b      	ldr	r3, [r3, #0]
- 8000310:	2b00      	cmp	r3, #0
- 8000312:	d111      	bne.n	8000338 <wifiDetail+0x30>
- 8000314:	4b16      	ldr	r3, [pc, #88]	; (8000370 <wifiDetail+0x68>)
- 8000316:	681b      	ldr	r3, [r3, #0]
- 8000318:	2b00      	cmp	r3, #0
- 800031a:	d10d      	bne.n	8000338 <wifiDetail+0x30>
-	{
-		name_of_wifi[0]='"';
- 800031c:	4b15      	ldr	r3, [pc, #84]	; (8000374 <wifiDetail+0x6c>)
- 800031e:	2222      	movs	r2, #34	; 0x22
- 8000320:	701a      	strb	r2, [r3, #0]
-		password_of_wifi[0]='"';
- 8000322:	4b15      	ldr	r3, [pc, #84]	; (8000378 <wifiDetail+0x70>)
- 8000324:	2222      	movs	r2, #34	; 0x22
- 8000326:	701a      	strb	r2, [r3, #0]
-		print("please type the name of the wifi now\n");
- 8000328:	4814      	ldr	r0, [pc, #80]	; (800037c <wifiDetail+0x74>)
- 800032a:	f000 f9e3 	bl	80006f4 <print>
-		while(flag_name!=1);
- 800032e:	bf00      	nop
- 8000330:	4b0e      	ldr	r3, [pc, #56]	; (800036c <wifiDetail+0x64>)
- 8000332:	681b      	ldr	r3, [r3, #0]
- 8000334:	2b01      	cmp	r3, #1
- 8000336:	d1fb      	bne.n	8000330 <wifiDetail+0x28>
-	}
-	 if(flag_name==1&&flag_password==0)
- 8000338:	4b0c      	ldr	r3, [pc, #48]	; (800036c <wifiDetail+0x64>)
- 800033a:	681b      	ldr	r3, [r3, #0]
- 800033c:	2b01      	cmp	r3, #1
- 800033e:	d112      	bne.n	8000366 <wifiDetail+0x5e>
- 8000340:	4b0b      	ldr	r3, [pc, #44]	; (8000370 <wifiDetail+0x68>)
- 8000342:	681b      	ldr	r3, [r3, #0]
- 8000344:	2b00      	cmp	r3, #0
- 8000346:	d10e      	bne.n	8000366 <wifiDetail+0x5e>
-	{
-		print("please type the password of the wifi\n");
- 8000348:	480d      	ldr	r0, [pc, #52]	; (8000380 <wifiDetail+0x78>)
- 800034a:	f000 f9d3 	bl	80006f4 <print>
-		while(flag_password!=1);
- 800034e:	bf00      	nop
- 8000350:	4b07      	ldr	r3, [pc, #28]	; (8000370 <wifiDetail+0x68>)
- 8000352:	681b      	ldr	r3, [r3, #0]
- 8000354:	2b01      	cmp	r3, #1
- 8000356:	d1fb      	bne.n	8000350 <wifiDetail+0x48>
-		strcat(name_of_wifi,password_of_wifi);
- 8000358:	4907      	ldr	r1, [pc, #28]	; (8000378 <wifiDetail+0x70>)
- 800035a:	4806      	ldr	r0, [pc, #24]	; (8000374 <wifiDetail+0x6c>)
- 800035c:	f000 fa52 	bl	8000804 <strcat>
-		wifiConnect(name_of_wifi);
- 8000360:	4804      	ldr	r0, [pc, #16]	; (8000374 <wifiDetail+0x6c>)
- 8000362:	f000 f897 	bl	8000494 <wifiConnect>
-	}
+08000308 <sendCommand>:
 
 
-
-
-}
- 8000366:	bf00      	nop
- 8000368:	bd80      	pop	{r7, pc}
- 800036a:	bf00      	nop
- 800036c:	200028a4 	.word	0x200028a4
- 8000370:	200028a8 	.word	0x200028a8
- 8000374:	2000013c 	.word	0x2000013c
- 8000378:	20000164 	.word	0x20000164
- 800037c:	080010b8 	.word	0x080010b8
- 8000380:	080010e0 	.word	0x080010e0
-
-08000384 <sendCommand>:
 
 void sendCommand(char *send_arr)  // send command to the modem
 {
- 8000384:	b480      	push	{r7}
- 8000386:	b085      	sub	sp, #20
- 8000388:	af00      	add	r7, sp, #0
- 800038a:	6078      	str	r0, [r7, #4]
+ 8000308:	b480      	push	{r7}
+ 800030a:	b085      	sub	sp, #20
+ 800030c:	af00      	add	r7, sp, #0
+ 800030e:	6078      	str	r0, [r7, #4]
 	int count_arr=0;
- 800038c:	2300      	movs	r3, #0
- 800038e:	60fb      	str	r3, [r7, #12]
+ 8000310:	2300      	movs	r3, #0
+ 8000312:	60fb      	str	r3, [r7, #12]
 	while(send_arr[count_arr]!='\0')
- 8000390:	e010      	b.n	80003b4 <sendCommand+0x30>
+ 8000314:	e010      	b.n	8000338 <sendCommand+0x30>
 		{
 			USART1->TDR=send_arr[count_arr];
- 8000392:	68fb      	ldr	r3, [r7, #12]
- 8000394:	687a      	ldr	r2, [r7, #4]
- 8000396:	4413      	add	r3, r2
- 8000398:	781a      	ldrb	r2, [r3, #0]
- 800039a:	4b0d      	ldr	r3, [pc, #52]	; (80003d0 <sendCommand+0x4c>)
- 800039c:	b292      	uxth	r2, r2
- 800039e:	851a      	strh	r2, [r3, #40]	; 0x28
+ 8000316:	68fb      	ldr	r3, [r7, #12]
+ 8000318:	687a      	ldr	r2, [r7, #4]
+ 800031a:	4413      	add	r3, r2
+ 800031c:	781a      	ldrb	r2, [r3, #0]
+ 800031e:	4b0d      	ldr	r3, [pc, #52]	; (8000354 <sendCommand+0x4c>)
+ 8000320:	b292      	uxth	r2, r2
+ 8000322:	851a      	strh	r2, [r3, #40]	; 0x28
 			while(!(USART1->ISR & 0x00000080));
- 80003a0:	bf00      	nop
- 80003a2:	4b0b      	ldr	r3, [pc, #44]	; (80003d0 <sendCommand+0x4c>)
- 80003a4:	69db      	ldr	r3, [r3, #28]
- 80003a6:	f003 0380 	and.w	r3, r3, #128	; 0x80
- 80003aa:	2b00      	cmp	r3, #0
- 80003ac:	d0f9      	beq.n	80003a2 <sendCommand+0x1e>
+ 8000324:	bf00      	nop
+ 8000326:	4b0b      	ldr	r3, [pc, #44]	; (8000354 <sendCommand+0x4c>)
+ 8000328:	69db      	ldr	r3, [r3, #28]
+ 800032a:	f003 0380 	and.w	r3, r3, #128	; 0x80
+ 800032e:	2b00      	cmp	r3, #0
+ 8000330:	d0f9      	beq.n	8000326 <sendCommand+0x1e>
 			count_arr++;
- 80003ae:	68fb      	ldr	r3, [r7, #12]
- 80003b0:	3301      	adds	r3, #1
- 80003b2:	60fb      	str	r3, [r7, #12]
+ 8000332:	68fb      	ldr	r3, [r7, #12]
+ 8000334:	3301      	adds	r3, #1
+ 8000336:	60fb      	str	r3, [r7, #12]
 	while(send_arr[count_arr]!='\0')
- 80003b4:	68fb      	ldr	r3, [r7, #12]
- 80003b6:	687a      	ldr	r2, [r7, #4]
- 80003b8:	4413      	add	r3, r2
- 80003ba:	781b      	ldrb	r3, [r3, #0]
- 80003bc:	2b00      	cmp	r3, #0
- 80003be:	d1e8      	bne.n	8000392 <sendCommand+0xe>
+ 8000338:	68fb      	ldr	r3, [r7, #12]
+ 800033a:	687a      	ldr	r2, [r7, #4]
+ 800033c:	4413      	add	r3, r2
+ 800033e:	781b      	ldrb	r3, [r3, #0]
+ 8000340:	2b00      	cmp	r3, #0
+ 8000342:	d1e8      	bne.n	8000316 <sendCommand+0xe>
 		}
 
 
 }
- 80003c0:	bf00      	nop
- 80003c2:	bf00      	nop
- 80003c4:	3714      	adds	r7, #20
- 80003c6:	46bd      	mov	sp, r7
- 80003c8:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80003cc:	4770      	bx	lr
- 80003ce:	bf00      	nop
- 80003d0:	40013800 	.word	0x40013800
+ 8000344:	bf00      	nop
+ 8000346:	bf00      	nop
+ 8000348:	3714      	adds	r7, #20
+ 800034a:	46bd      	mov	sp, r7
+ 800034c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000350:	4770      	bx	lr
+ 8000352:	bf00      	nop
+ 8000354:	40013800 	.word	0x40013800
+
+08000358 <wifiDetail>:
+
+void wifiDetail() // input the wifi details
+{
+ 8000358:	b580      	push	{r7, lr}
+ 800035a:	af00      	add	r7, sp, #0
+	if(flag_name==0&&flag_password==0)
+ 800035c:	4b17      	ldr	r3, [pc, #92]	; (80003bc <wifiDetail+0x64>)
+ 800035e:	681b      	ldr	r3, [r3, #0]
+ 8000360:	2b00      	cmp	r3, #0
+ 8000362:	d111      	bne.n	8000388 <wifiDetail+0x30>
+ 8000364:	4b16      	ldr	r3, [pc, #88]	; (80003c0 <wifiDetail+0x68>)
+ 8000366:	681b      	ldr	r3, [r3, #0]
+ 8000368:	2b00      	cmp	r3, #0
+ 800036a:	d10d      	bne.n	8000388 <wifiDetail+0x30>
+	{
+		name_of_wifi[0]='"';
+ 800036c:	4b15      	ldr	r3, [pc, #84]	; (80003c4 <wifiDetail+0x6c>)
+ 800036e:	2222      	movs	r2, #34	; 0x22
+ 8000370:	701a      	strb	r2, [r3, #0]
+		password_of_wifi[0]='"';
+ 8000372:	4b15      	ldr	r3, [pc, #84]	; (80003c8 <wifiDetail+0x70>)
+ 8000374:	2222      	movs	r2, #34	; 0x22
+ 8000376:	701a      	strb	r2, [r3, #0]
+		print("please type the name of the wifi now\n");
+ 8000378:	4814      	ldr	r0, [pc, #80]	; (80003cc <wifiDetail+0x74>)
+ 800037a:	f000 f985 	bl	8000688 <print>
+		while(flag_name!=1);
+ 800037e:	bf00      	nop
+ 8000380:	4b0e      	ldr	r3, [pc, #56]	; (80003bc <wifiDetail+0x64>)
+ 8000382:	681b      	ldr	r3, [r3, #0]
+ 8000384:	2b01      	cmp	r3, #1
+ 8000386:	d1fb      	bne.n	8000380 <wifiDetail+0x28>
+	}
+	 if(flag_name==1&&flag_password==0)
+ 8000388:	4b0c      	ldr	r3, [pc, #48]	; (80003bc <wifiDetail+0x64>)
+ 800038a:	681b      	ldr	r3, [r3, #0]
+ 800038c:	2b01      	cmp	r3, #1
+ 800038e:	d112      	bne.n	80003b6 <wifiDetail+0x5e>
+ 8000390:	4b0b      	ldr	r3, [pc, #44]	; (80003c0 <wifiDetail+0x68>)
+ 8000392:	681b      	ldr	r3, [r3, #0]
+ 8000394:	2b00      	cmp	r3, #0
+ 8000396:	d10e      	bne.n	80003b6 <wifiDetail+0x5e>
+	{
+		print("please type the password of the wifi\n");
+ 8000398:	480d      	ldr	r0, [pc, #52]	; (80003d0 <wifiDetail+0x78>)
+ 800039a:	f000 f975 	bl	8000688 <print>
+		while(flag_password!=1);
+ 800039e:	bf00      	nop
+ 80003a0:	4b07      	ldr	r3, [pc, #28]	; (80003c0 <wifiDetail+0x68>)
+ 80003a2:	681b      	ldr	r3, [r3, #0]
+ 80003a4:	2b01      	cmp	r3, #1
+ 80003a6:	d1fb      	bne.n	80003a0 <wifiDetail+0x48>
+		strcat(name_of_wifi,password_of_wifi);
+ 80003a8:	4907      	ldr	r1, [pc, #28]	; (80003c8 <wifiDetail+0x70>)
+ 80003aa:	4806      	ldr	r0, [pc, #24]	; (80003c4 <wifiDetail+0x6c>)
+ 80003ac:	f000 fa2a 	bl	8000804 <strcat>
+		wifiConnect(name_of_wifi);
+ 80003b0:	4804      	ldr	r0, [pc, #16]	; (80003c4 <wifiDetail+0x6c>)
+ 80003b2:	f000 f9a3 	bl	80006fc <wifiConnect>
+	}
+
+
+
+
+}
+ 80003b6:	bf00      	nop
+ 80003b8:	bd80      	pop	{r7, pc}
+ 80003ba:	bf00      	nop
+ 80003bc:	200028a4 	.word	0x200028a4
+ 80003c0:	200028a8 	.word	0x200028a8
+ 80003c4:	2000284c 	.word	0x2000284c
+ 80003c8:	20002874 	.word	0x20002874
+ 80003cc:	080010b8 	.word	0x080010b8
+ 80003d0:	080010e0 	.word	0x080010e0
 
 080003d4 <printResponse>:
 
@@ -405,7 +407,7 @@ void printResponse()
  80003fa:	5cd3      	ldrb	r3, [r2, r3]
  80003fc:	4619      	mov	r1, r3
  80003fe:	4823      	ldr	r0, [pc, #140]	; (800048c <printResponse+0xb8>)
- 8000400:	f000 f978 	bl	80006f4 <print>
+ 8000400:	f000 f942 	bl	8000688 <print>
 			if(wifi_buffer[count_wifi_buftwo-1]=='O'&&wifi_buffer[count_wifi_buftwo]=='K')
  8000404:	4b20      	ldr	r3, [pc, #128]	; (8000488 <printResponse+0xb4>)
  8000406:	681b      	ldr	r3, [r3, #0]
@@ -423,7 +425,7 @@ void printResponse()
 			{
 				print("\n");
  800041e:	481c      	ldr	r0, [pc, #112]	; (8000490 <printResponse+0xbc>)
- 8000420:	f000 f968 	bl	80006f4 <print>
+ 8000420:	f000 f932 	bl	8000688 <print>
 			}
 
 			if(wifi_buffer[count_wifi_buftwo]=='\n')
@@ -488,503 +490,568 @@ void printResponse()
  800047a:	bf00      	nop
  800047c:	bd80      	pop	{r7, pc}
  800047e:	bf00      	nop
- 8000480:	2000018c 	.word	0x2000018c
- 8000484:	20002920 	.word	0x20002920
+ 8000480:	2000013c 	.word	0x2000013c
+ 8000484:	20002924 	.word	0x20002924
  8000488:	200028a0 	.word	0x200028a0
  800048c:	08001108 	.word	0x08001108
  8000490:	0800110c 	.word	0x0800110c
 
-08000494 <wifiConnect>:
-void wifiConnect(char* wifi_arr)
-{
- 8000494:	b580      	push	{r7, lr}
- 8000496:	b082      	sub	sp, #8
- 8000498:	af00      	add	r7, sp, #0
- 800049a:	6078      	str	r0, [r7, #4]
-	sendCommand(at); // input command 'ATE0'
- 800049c:	4814      	ldr	r0, [pc, #80]	; (80004f0 <wifiConnect+0x5c>)
- 800049e:	f7ff ff71 	bl	8000384 <sendCommand>
-	printResponse(); // print response
- 80004a2:	f7ff ff97 	bl	80003d4 <printResponse>
+08000494 <uartProccessorInit>:
 
-	strcat(config_two,wifi_arr);  // union between wifi details and 'AT+CWJAP COMMAND
- 80004a6:	6879      	ldr	r1, [r7, #4]
- 80004a8:	4812      	ldr	r0, [pc, #72]	; (80004f4 <wifiConnect+0x60>)
- 80004aa:	f000 f9ab 	bl	8000804 <strcat>
-
-	sendCommand(config_one); // input command 'AT+CWMODE=1'
- 80004ae:	4812      	ldr	r0, [pc, #72]	; (80004f8 <wifiConnect+0x64>)
- 80004b0:	f7ff ff68 	bl	8000384 <sendCommand>
-	printResponse();         // print response
- 80004b4:	f7ff ff8e 	bl	80003d4 <printResponse>
-	counter=0;
- 80004b8:	4b10      	ldr	r3, [pc, #64]	; (80004fc <wifiConnect+0x68>)
- 80004ba:	2200      	movs	r2, #0
- 80004bc:	601a      	str	r2, [r3, #0]
-
-	sendCommand(config_two); // input command 'AT+CWJAP=wifi details'
- 80004be:	480d      	ldr	r0, [pc, #52]	; (80004f4 <wifiConnect+0x60>)
- 80004c0:	f7ff ff60 	bl	8000384 <sendCommand>
-	printResponse();      // print response
- 80004c4:	f7ff ff86 	bl	80003d4 <printResponse>
-	printResponse();
- 80004c8:	f7ff ff84 	bl	80003d4 <printResponse>
-	printResponse();
- 80004cc:	f7ff ff82 	bl	80003d4 <printResponse>
-	printResponse();
- 80004d0:	f7ff ff80 	bl	80003d4 <printResponse>
-	printResponse();
- 80004d4:	f7ff ff7e 	bl	80003d4 <printResponse>
-	printResponse();
- 80004d8:	f7ff ff7c 	bl	80003d4 <printResponse>
-	printResponse();
- 80004dc:	f7ff ff7a 	bl	80003d4 <printResponse>
-
-
-		counter=0;
- 80004e0:	4b06      	ldr	r3, [pc, #24]	; (80004fc <wifiConnect+0x68>)
- 80004e2:	2200      	movs	r2, #0
- 80004e4:	601a      	str	r2, [r3, #0]
-
-
-}
- 80004e6:	bf00      	nop
- 80004e8:	3708      	adds	r7, #8
- 80004ea:	46bd      	mov	sp, r7
- 80004ec:	bd80      	pop	{r7, pc}
- 80004ee:	bf00      	nop
- 80004f0:	20000030 	.word	0x20000030
- 80004f4:	20000010 	.word	0x20000010
- 80004f8:	20000000 	.word	0x20000000
- 80004fc:	20000038 	.word	0x20000038
-
-08000500 <uartProccessorInit>:
 
 
 void uartProccessorInit()
 {
- 8000500:	b580      	push	{r7, lr}
- 8000502:	af00      	add	r7, sp, #0
+ 8000494:	b580      	push	{r7, lr}
+ 8000496:	af00      	add	r7, sp, #0
 
 	// Enable GPIOC clock (p. 148 in the datasheet).
 	        RCC->AHBENR |= 0x00080000;
- 8000504:	4b11      	ldr	r3, [pc, #68]	; (800054c <uartProccessorInit+0x4c>)
- 8000506:	695b      	ldr	r3, [r3, #20]
- 8000508:	4a10      	ldr	r2, [pc, #64]	; (800054c <uartProccessorInit+0x4c>)
- 800050a:	f443 2300 	orr.w	r3, r3, #524288	; 0x80000
- 800050e:	6153      	str	r3, [r2, #20]
+ 8000498:	4b11      	ldr	r3, [pc, #68]	; (80004e0 <uartProccessorInit+0x4c>)
+ 800049a:	695b      	ldr	r3, [r3, #20]
+ 800049c:	4a10      	ldr	r2, [pc, #64]	; (80004e0 <uartProccessorInit+0x4c>)
+ 800049e:	f443 2300 	orr.w	r3, r3, #524288	; 0x80000
+ 80004a2:	6153      	str	r3, [r2, #20]
 	    // Enable USART1 clock.
 	        RCC->APB2ENR |= 0x00004000;
- 8000510:	4b0e      	ldr	r3, [pc, #56]	; (800054c <uartProccessorInit+0x4c>)
- 8000512:	699b      	ldr	r3, [r3, #24]
- 8000514:	4a0d      	ldr	r2, [pc, #52]	; (800054c <uartProccessorInit+0x4c>)
- 8000516:	f443 4380 	orr.w	r3, r3, #16384	; 0x4000
- 800051a:	6193      	str	r3, [r2, #24]
+ 80004a4:	4b0e      	ldr	r3, [pc, #56]	; (80004e0 <uartProccessorInit+0x4c>)
+ 80004a6:	699b      	ldr	r3, [r3, #24]
+ 80004a8:	4a0d      	ldr	r2, [pc, #52]	; (80004e0 <uartProccessorInit+0x4c>)
+ 80004aa:	f443 4380 	orr.w	r3, r3, #16384	; 0x4000
+ 80004ae:	6193      	str	r3, [r2, #24]
 	    // Configure GPIOC pins 4 and 5 as alternate function 7, which is USART1.
 	        GPIOC->MODER |= 0x00000A00;
- 800051c:	4b0c      	ldr	r3, [pc, #48]	; (8000550 <uartProccessorInit+0x50>)
- 800051e:	681b      	ldr	r3, [r3, #0]
- 8000520:	4a0b      	ldr	r2, [pc, #44]	; (8000550 <uartProccessorInit+0x50>)
- 8000522:	f443 6320 	orr.w	r3, r3, #2560	; 0xa00
- 8000526:	6013      	str	r3, [r2, #0]
+ 80004b0:	4b0c      	ldr	r3, [pc, #48]	; (80004e4 <uartProccessorInit+0x50>)
+ 80004b2:	681b      	ldr	r3, [r3, #0]
+ 80004b4:	4a0b      	ldr	r2, [pc, #44]	; (80004e4 <uartProccessorInit+0x50>)
+ 80004b6:	f443 6320 	orr.w	r3, r3, #2560	; 0xa00
+ 80004ba:	6013      	str	r3, [r2, #0]
 	        GPIOC->AFR[0]|= 0x00770000;
- 8000528:	4b09      	ldr	r3, [pc, #36]	; (8000550 <uartProccessorInit+0x50>)
- 800052a:	6a1b      	ldr	r3, [r3, #32]
- 800052c:	4a08      	ldr	r2, [pc, #32]	; (8000550 <uartProccessorInit+0x50>)
- 800052e:	f443 03ee 	orr.w	r3, r3, #7798784	; 0x770000
- 8000532:	6213      	str	r3, [r2, #32]
+ 80004bc:	4b09      	ldr	r3, [pc, #36]	; (80004e4 <uartProccessorInit+0x50>)
+ 80004be:	6a1b      	ldr	r3, [r3, #32]
+ 80004c0:	4a08      	ldr	r2, [pc, #32]	; (80004e4 <uartProccessorInit+0x50>)
+ 80004c2:	f443 03ee 	orr.w	r3, r3, #7798784	; 0x770000
+ 80004c6:	6213      	str	r3, [r2, #32]
 	        USART1->BRR = 69;  // 115200 wifi baud rate
- 8000534:	4b07      	ldr	r3, [pc, #28]	; (8000554 <uartProccessorInit+0x54>)
- 8000536:	2245      	movs	r2, #69	; 0x45
- 8000538:	60da      	str	r2, [r3, #12]
+ 80004c8:	4b07      	ldr	r3, [pc, #28]	; (80004e8 <uartProccessorInit+0x54>)
+ 80004ca:	2245      	movs	r2, #69	; 0x45
+ 80004cc:	60da      	str	r2, [r3, #12]
 	        // Enable USART1 and its TX functionality.
 	        // Enable USART1 and its RX and TX functionality.
 	        // Also enable the RX interrupt.
 	        USART1->CR1 = 0x0000002D;
- 800053a:	4b06      	ldr	r3, [pc, #24]	; (8000554 <uartProccessorInit+0x54>)
- 800053c:	222d      	movs	r2, #45	; 0x2d
- 800053e:	601a      	str	r2, [r3, #0]
+ 80004ce:	4b06      	ldr	r3, [pc, #24]	; (80004e8 <uartProccessorInit+0x54>)
+ 80004d0:	222d      	movs	r2, #45	; 0x2d
+ 80004d2:	601a      	str	r2, [r3, #0]
 	        NVIC_EnableIRQ(USART1_IRQn);
- 8000540:	2025      	movs	r0, #37	; 0x25
- 8000542:	f7ff feb5 	bl	80002b0 <__NVIC_EnableIRQ>
+ 80004d4:	2025      	movs	r0, #37	; 0x25
+ 80004d6:	f7ff feeb 	bl	80002b0 <__NVIC_EnableIRQ>
 
 
+}
+ 80004da:	bf00      	nop
+ 80004dc:	bd80      	pop	{r7, pc}
+ 80004de:	bf00      	nop
+ 80004e0:	40021000 	.word	0x40021000
+ 80004e4:	48000800 	.word	0x48000800
+ 80004e8:	40013800 	.word	0x40013800
+
+080004ec <uartComputerInit>:
+
+void uartComputerInit()
+{
+ 80004ec:	b580      	push	{r7, lr}
+ 80004ee:	af00      	add	r7, sp, #0
+	// Enable GPIOA clock (p. 148 in the datasheet).
+	    RCC->AHBENR |= 0x00020000;
+ 80004f0:	4b16      	ldr	r3, [pc, #88]	; (800054c <uartComputerInit+0x60>)
+ 80004f2:	695b      	ldr	r3, [r3, #20]
+ 80004f4:	4a15      	ldr	r2, [pc, #84]	; (800054c <uartComputerInit+0x60>)
+ 80004f6:	f443 3300 	orr.w	r3, r3, #131072	; 0x20000
+ 80004fa:	6153      	str	r3, [r2, #20]
+	    // Enable USART2 clock.
+	    RCC->APB1ENR |= 0x00020000;
+ 80004fc:	4b13      	ldr	r3, [pc, #76]	; (800054c <uartComputerInit+0x60>)
+ 80004fe:	69db      	ldr	r3, [r3, #28]
+ 8000500:	4a12      	ldr	r2, [pc, #72]	; (800054c <uartComputerInit+0x60>)
+ 8000502:	f443 3300 	orr.w	r3, r3, #131072	; 0x20000
+ 8000506:	61d3      	str	r3, [r2, #28]
+	    // Configure GPIOA pins 2 and 3 as alternate function 7, which is USART2.
+	    GPIOA->MODER |= 0x000000A0;
+ 8000508:	f04f 4390 	mov.w	r3, #1207959552	; 0x48000000
+ 800050c:	681b      	ldr	r3, [r3, #0]
+ 800050e:	f04f 4290 	mov.w	r2, #1207959552	; 0x48000000
+ 8000512:	f043 03a0 	orr.w	r3, r3, #160	; 0xa0
+ 8000516:	6013      	str	r3, [r2, #0]
+	    GPIOA->AFR[0] |= 0x00007700;
+ 8000518:	f04f 4390 	mov.w	r3, #1207959552	; 0x48000000
+ 800051c:	6a1b      	ldr	r3, [r3, #32]
+ 800051e:	f04f 4290 	mov.w	r2, #1207959552	; 0x48000000
+ 8000522:	f443 43ee 	orr.w	r3, r3, #30464	; 0x7700
+ 8000526:	6213      	str	r3, [r2, #32]
+	    USART2->BRR = 833;   // 9600 baud rate
+ 8000528:	4b09      	ldr	r3, [pc, #36]	; (8000550 <uartComputerInit+0x64>)
+ 800052a:	f240 3241 	movw	r2, #833	; 0x341
+ 800052e:	60da      	str	r2, [r3, #12]
+	    // Enable USART2 and its TX functionality.
+	    // Enable USART2 and its RX and TX functionality.
+	    // Also enable the RX interrupt.
+	    USART2->CR1 = 0x0000002D;
+ 8000530:	4b07      	ldr	r3, [pc, #28]	; (8000550 <uartComputerInit+0x64>)
+ 8000532:	222d      	movs	r2, #45	; 0x2d
+ 8000534:	601a      	str	r2, [r3, #0]
+	    NVIC_EnableIRQ(USART2_IRQn);
+ 8000536:	2026      	movs	r0, #38	; 0x26
+ 8000538:	f7ff feba 	bl	80002b0 <__NVIC_EnableIRQ>
+	    printToComputer("user-side program");
+ 800053c:	4805      	ldr	r0, [pc, #20]	; (8000554 <uartComputerInit+0x68>)
+ 800053e:	f7ff fed5 	bl	80002ec <printToComputer>
+	    wifiDetail();
+ 8000542:	f7ff ff09 	bl	8000358 <wifiDetail>
 }
  8000546:	bf00      	nop
  8000548:	bd80      	pop	{r7, pc}
  800054a:	bf00      	nop
  800054c:	40021000 	.word	0x40021000
- 8000550:	48000800 	.word	0x48000800
- 8000554:	40013800 	.word	0x40013800
+ 8000550:	40004400 	.word	0x40004400
+ 8000554:	08001110 	.word	0x08001110
 
-08000558 <uartComputerInit>:
-
-void uartComputerInit()
-{
- 8000558:	b580      	push	{r7, lr}
- 800055a:	af00      	add	r7, sp, #0
-	// Enable GPIOA clock (p. 148 in the datasheet).
-	    RCC->AHBENR |= 0x00020000;
- 800055c:	4b16      	ldr	r3, [pc, #88]	; (80005b8 <uartComputerInit+0x60>)
- 800055e:	695b      	ldr	r3, [r3, #20]
- 8000560:	4a15      	ldr	r2, [pc, #84]	; (80005b8 <uartComputerInit+0x60>)
- 8000562:	f443 3300 	orr.w	r3, r3, #131072	; 0x20000
- 8000566:	6153      	str	r3, [r2, #20]
-	    // Enable USART2 clock.
-	    RCC->APB1ENR |= 0x00020000;
- 8000568:	4b13      	ldr	r3, [pc, #76]	; (80005b8 <uartComputerInit+0x60>)
- 800056a:	69db      	ldr	r3, [r3, #28]
- 800056c:	4a12      	ldr	r2, [pc, #72]	; (80005b8 <uartComputerInit+0x60>)
- 800056e:	f443 3300 	orr.w	r3, r3, #131072	; 0x20000
- 8000572:	61d3      	str	r3, [r2, #28]
-	    // Configure GPIOA pins 2 and 3 as alternate function 7, which is USART2.
-	    GPIOA->MODER |= 0x000000A0;
- 8000574:	f04f 4390 	mov.w	r3, #1207959552	; 0x48000000
- 8000578:	681b      	ldr	r3, [r3, #0]
- 800057a:	f04f 4290 	mov.w	r2, #1207959552	; 0x48000000
- 800057e:	f043 03a0 	orr.w	r3, r3, #160	; 0xa0
- 8000582:	6013      	str	r3, [r2, #0]
-	    GPIOA->AFR[0] |= 0x00007700;
- 8000584:	f04f 4390 	mov.w	r3, #1207959552	; 0x48000000
- 8000588:	6a1b      	ldr	r3, [r3, #32]
- 800058a:	f04f 4290 	mov.w	r2, #1207959552	; 0x48000000
- 800058e:	f443 43ee 	orr.w	r3, r3, #30464	; 0x7700
- 8000592:	6213      	str	r3, [r2, #32]
-	    USART2->BRR = 833;   // 9600 baud rate
- 8000594:	4b09      	ldr	r3, [pc, #36]	; (80005bc <uartComputerInit+0x64>)
- 8000596:	f240 3241 	movw	r2, #833	; 0x341
- 800059a:	60da      	str	r2, [r3, #12]
-	    // Enable USART2 and its TX functionality.
-	    // Enable USART2 and its RX and TX functionality.
-	    // Also enable the RX interrupt.
-	    USART2->CR1 = 0x0000002D;
- 800059c:	4b07      	ldr	r3, [pc, #28]	; (80005bc <uartComputerInit+0x64>)
- 800059e:	222d      	movs	r2, #45	; 0x2d
- 80005a0:	601a      	str	r2, [r3, #0]
-	    NVIC_EnableIRQ(USART2_IRQn);
- 80005a2:	2026      	movs	r0, #38	; 0x26
- 80005a4:	f7ff fe84 	bl	80002b0 <__NVIC_EnableIRQ>
-	    printToComputer("server-side program");
- 80005a8:	4805      	ldr	r0, [pc, #20]	; (80005c0 <uartComputerInit+0x68>)
- 80005aa:	f7ff fe9f 	bl	80002ec <printToComputer>
-	    wifiDetail();
- 80005ae:	f7ff feab 	bl	8000308 <wifiDetail>
-}
- 80005b2:	bf00      	nop
- 80005b4:	bd80      	pop	{r7, pc}
- 80005b6:	bf00      	nop
- 80005b8:	40021000 	.word	0x40021000
- 80005bc:	40004400 	.word	0x40004400
- 80005c0:	08001110 	.word	0x08001110
-
-080005c4 <USART2_EXTI26_IRQHandler>:
+08000558 <USART2_EXTI26_IRQHandler>:
 
 
 void USART2_EXTI26_IRQHandler(void)  // interrupt uart for computer
 {
- 80005c4:	b480      	push	{r7}
- 80005c6:	af00      	add	r7, sp, #0
+ 8000558:	b480      	push	{r7}
+ 800055a:	af00      	add	r7, sp, #0
 		temp_c=USART2->RDR;
- 80005c8:	4b36      	ldr	r3, [pc, #216]	; (80006a4 <USART2_EXTI26_IRQHandler+0xe0>)
- 80005ca:	8c9b      	ldrh	r3, [r3, #36]	; 0x24
- 80005cc:	b29b      	uxth	r3, r3
- 80005ce:	b2da      	uxtb	r2, r3
- 80005d0:	4b35      	ldr	r3, [pc, #212]	; (80006a8 <USART2_EXTI26_IRQHandler+0xe4>)
- 80005d2:	701a      	strb	r2, [r3, #0]
+ 800055c:	4b36      	ldr	r3, [pc, #216]	; (8000638 <USART2_EXTI26_IRQHandler+0xe0>)
+ 800055e:	8c9b      	ldrh	r3, [r3, #36]	; 0x24
+ 8000560:	b29b      	uxth	r3, r3
+ 8000562:	b2da      	uxtb	r2, r3
+ 8000564:	4b35      	ldr	r3, [pc, #212]	; (800063c <USART2_EXTI26_IRQHandler+0xe4>)
+ 8000566:	701a      	strb	r2, [r3, #0]
 		if(temp_c=='\n'&&flag_name==0)
- 80005d4:	4b34      	ldr	r3, [pc, #208]	; (80006a8 <USART2_EXTI26_IRQHandler+0xe4>)
- 80005d6:	781b      	ldrb	r3, [r3, #0]
- 80005d8:	2b0a      	cmp	r3, #10
- 80005da:	d115      	bne.n	8000608 <USART2_EXTI26_IRQHandler+0x44>
- 80005dc:	4b33      	ldr	r3, [pc, #204]	; (80006ac <USART2_EXTI26_IRQHandler+0xe8>)
- 80005de:	681b      	ldr	r3, [r3, #0]
- 80005e0:	2b00      	cmp	r3, #0
- 80005e2:	d111      	bne.n	8000608 <USART2_EXTI26_IRQHandler+0x44>
+ 8000568:	4b34      	ldr	r3, [pc, #208]	; (800063c <USART2_EXTI26_IRQHandler+0xe4>)
+ 800056a:	781b      	ldrb	r3, [r3, #0]
+ 800056c:	2b0a      	cmp	r3, #10
+ 800056e:	d115      	bne.n	800059c <USART2_EXTI26_IRQHandler+0x44>
+ 8000570:	4b33      	ldr	r3, [pc, #204]	; (8000640 <USART2_EXTI26_IRQHandler+0xe8>)
+ 8000572:	681b      	ldr	r3, [r3, #0]
+ 8000574:	2b00      	cmp	r3, #0
+ 8000576:	d111      	bne.n	800059c <USART2_EXTI26_IRQHandler+0x44>
 		{
 			flag_name=1;
- 80005e4:	4b31      	ldr	r3, [pc, #196]	; (80006ac <USART2_EXTI26_IRQHandler+0xe8>)
- 80005e6:	2201      	movs	r2, #1
- 80005e8:	601a      	str	r2, [r3, #0]
+ 8000578:	4b31      	ldr	r3, [pc, #196]	; (8000640 <USART2_EXTI26_IRQHandler+0xe8>)
+ 800057a:	2201      	movs	r2, #1
+ 800057c:	601a      	str	r2, [r3, #0]
 			name_of_wifi[counter]='"';         // demands of the wifi modem
- 80005ea:	4b31      	ldr	r3, [pc, #196]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 80005ec:	681b      	ldr	r3, [r3, #0]
- 80005ee:	4a31      	ldr	r2, [pc, #196]	; (80006b4 <USART2_EXTI26_IRQHandler+0xf0>)
- 80005f0:	2122      	movs	r1, #34	; 0x22
- 80005f2:	54d1      	strb	r1, [r2, r3]
+ 800057e:	4b31      	ldr	r3, [pc, #196]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 8000580:	681b      	ldr	r3, [r3, #0]
+ 8000582:	4a31      	ldr	r2, [pc, #196]	; (8000648 <USART2_EXTI26_IRQHandler+0xf0>)
+ 8000584:	2122      	movs	r1, #34	; 0x22
+ 8000586:	54d1      	strb	r1, [r2, r3]
 			name_of_wifi[counter+1]=',';       // demands of the wifi modem
- 80005f4:	4b2e      	ldr	r3, [pc, #184]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 80005f6:	681b      	ldr	r3, [r3, #0]
- 80005f8:	3301      	adds	r3, #1
- 80005fa:	4a2e      	ldr	r2, [pc, #184]	; (80006b4 <USART2_EXTI26_IRQHandler+0xf0>)
- 80005fc:	212c      	movs	r1, #44	; 0x2c
- 80005fe:	54d1      	strb	r1, [r2, r3]
+ 8000588:	4b2e      	ldr	r3, [pc, #184]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 800058a:	681b      	ldr	r3, [r3, #0]
+ 800058c:	3301      	adds	r3, #1
+ 800058e:	4a2e      	ldr	r2, [pc, #184]	; (8000648 <USART2_EXTI26_IRQHandler+0xf0>)
+ 8000590:	212c      	movs	r1, #44	; 0x2c
+ 8000592:	54d1      	strb	r1, [r2, r3]
 			counter=1;
- 8000600:	4b2b      	ldr	r3, [pc, #172]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 8000602:	2201      	movs	r2, #1
- 8000604:	601a      	str	r2, [r3, #0]
- 8000606:	e047      	b.n	8000698 <USART2_EXTI26_IRQHandler+0xd4>
+ 8000594:	4b2b      	ldr	r3, [pc, #172]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 8000596:	2201      	movs	r2, #1
+ 8000598:	601a      	str	r2, [r3, #0]
+ 800059a:	e047      	b.n	800062c <USART2_EXTI26_IRQHandler+0xd4>
 		}
 		else if(temp_c!='\n'&&flag_name==0)
- 8000608:	4b27      	ldr	r3, [pc, #156]	; (80006a8 <USART2_EXTI26_IRQHandler+0xe4>)
- 800060a:	781b      	ldrb	r3, [r3, #0]
- 800060c:	2b0a      	cmp	r3, #10
- 800060e:	d00f      	beq.n	8000630 <USART2_EXTI26_IRQHandler+0x6c>
- 8000610:	4b26      	ldr	r3, [pc, #152]	; (80006ac <USART2_EXTI26_IRQHandler+0xe8>)
- 8000612:	681b      	ldr	r3, [r3, #0]
- 8000614:	2b00      	cmp	r3, #0
- 8000616:	d10b      	bne.n	8000630 <USART2_EXTI26_IRQHandler+0x6c>
+ 800059c:	4b27      	ldr	r3, [pc, #156]	; (800063c <USART2_EXTI26_IRQHandler+0xe4>)
+ 800059e:	781b      	ldrb	r3, [r3, #0]
+ 80005a0:	2b0a      	cmp	r3, #10
+ 80005a2:	d00f      	beq.n	80005c4 <USART2_EXTI26_IRQHandler+0x6c>
+ 80005a4:	4b26      	ldr	r3, [pc, #152]	; (8000640 <USART2_EXTI26_IRQHandler+0xe8>)
+ 80005a6:	681b      	ldr	r3, [r3, #0]
+ 80005a8:	2b00      	cmp	r3, #0
+ 80005aa:	d10b      	bne.n	80005c4 <USART2_EXTI26_IRQHandler+0x6c>
 		{
 			name_of_wifi[counter]=temp_c;
- 8000618:	4b25      	ldr	r3, [pc, #148]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 800061a:	681b      	ldr	r3, [r3, #0]
- 800061c:	4a22      	ldr	r2, [pc, #136]	; (80006a8 <USART2_EXTI26_IRQHandler+0xe4>)
- 800061e:	7811      	ldrb	r1, [r2, #0]
- 8000620:	4a24      	ldr	r2, [pc, #144]	; (80006b4 <USART2_EXTI26_IRQHandler+0xf0>)
- 8000622:	54d1      	strb	r1, [r2, r3]
+ 80005ac:	4b25      	ldr	r3, [pc, #148]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 80005ae:	681b      	ldr	r3, [r3, #0]
+ 80005b0:	4a22      	ldr	r2, [pc, #136]	; (800063c <USART2_EXTI26_IRQHandler+0xe4>)
+ 80005b2:	7811      	ldrb	r1, [r2, #0]
+ 80005b4:	4a24      	ldr	r2, [pc, #144]	; (8000648 <USART2_EXTI26_IRQHandler+0xf0>)
+ 80005b6:	54d1      	strb	r1, [r2, r3]
 			counter++;
- 8000624:	4b22      	ldr	r3, [pc, #136]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 8000626:	681b      	ldr	r3, [r3, #0]
- 8000628:	3301      	adds	r3, #1
- 800062a:	4a21      	ldr	r2, [pc, #132]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 800062c:	6013      	str	r3, [r2, #0]
- 800062e:	e033      	b.n	8000698 <USART2_EXTI26_IRQHandler+0xd4>
+ 80005b8:	4b22      	ldr	r3, [pc, #136]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 80005ba:	681b      	ldr	r3, [r3, #0]
+ 80005bc:	3301      	adds	r3, #1
+ 80005be:	4a21      	ldr	r2, [pc, #132]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 80005c0:	6013      	str	r3, [r2, #0]
+ 80005c2:	e033      	b.n	800062c <USART2_EXTI26_IRQHandler+0xd4>
 		}
 		else if(temp_c!='\n'&&flag_name==1) // that means that we need to configure the password
- 8000630:	4b1d      	ldr	r3, [pc, #116]	; (80006a8 <USART2_EXTI26_IRQHandler+0xe4>)
- 8000632:	781b      	ldrb	r3, [r3, #0]
- 8000634:	2b0a      	cmp	r3, #10
- 8000636:	d00f      	beq.n	8000658 <USART2_EXTI26_IRQHandler+0x94>
- 8000638:	4b1c      	ldr	r3, [pc, #112]	; (80006ac <USART2_EXTI26_IRQHandler+0xe8>)
- 800063a:	681b      	ldr	r3, [r3, #0]
- 800063c:	2b01      	cmp	r3, #1
- 800063e:	d10b      	bne.n	8000658 <USART2_EXTI26_IRQHandler+0x94>
+ 80005c4:	4b1d      	ldr	r3, [pc, #116]	; (800063c <USART2_EXTI26_IRQHandler+0xe4>)
+ 80005c6:	781b      	ldrb	r3, [r3, #0]
+ 80005c8:	2b0a      	cmp	r3, #10
+ 80005ca:	d00f      	beq.n	80005ec <USART2_EXTI26_IRQHandler+0x94>
+ 80005cc:	4b1c      	ldr	r3, [pc, #112]	; (8000640 <USART2_EXTI26_IRQHandler+0xe8>)
+ 80005ce:	681b      	ldr	r3, [r3, #0]
+ 80005d0:	2b01      	cmp	r3, #1
+ 80005d2:	d10b      	bne.n	80005ec <USART2_EXTI26_IRQHandler+0x94>
 		{
 			password_of_wifi[counter]=temp_c;
- 8000640:	4b1b      	ldr	r3, [pc, #108]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 8000642:	681b      	ldr	r3, [r3, #0]
- 8000644:	4a18      	ldr	r2, [pc, #96]	; (80006a8 <USART2_EXTI26_IRQHandler+0xe4>)
- 8000646:	7811      	ldrb	r1, [r2, #0]
- 8000648:	4a1b      	ldr	r2, [pc, #108]	; (80006b8 <USART2_EXTI26_IRQHandler+0xf4>)
- 800064a:	54d1      	strb	r1, [r2, r3]
+ 80005d4:	4b1b      	ldr	r3, [pc, #108]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 80005d6:	681b      	ldr	r3, [r3, #0]
+ 80005d8:	4a18      	ldr	r2, [pc, #96]	; (800063c <USART2_EXTI26_IRQHandler+0xe4>)
+ 80005da:	7811      	ldrb	r1, [r2, #0]
+ 80005dc:	4a1b      	ldr	r2, [pc, #108]	; (800064c <USART2_EXTI26_IRQHandler+0xf4>)
+ 80005de:	54d1      	strb	r1, [r2, r3]
 			counter++;
- 800064c:	4b18      	ldr	r3, [pc, #96]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 800064e:	681b      	ldr	r3, [r3, #0]
- 8000650:	3301      	adds	r3, #1
- 8000652:	4a17      	ldr	r2, [pc, #92]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 8000654:	6013      	str	r3, [r2, #0]
- 8000656:	e01f      	b.n	8000698 <USART2_EXTI26_IRQHandler+0xd4>
+ 80005e0:	4b18      	ldr	r3, [pc, #96]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 80005e2:	681b      	ldr	r3, [r3, #0]
+ 80005e4:	3301      	adds	r3, #1
+ 80005e6:	4a17      	ldr	r2, [pc, #92]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 80005e8:	6013      	str	r3, [r2, #0]
+ 80005ea:	e01f      	b.n	800062c <USART2_EXTI26_IRQHandler+0xd4>
 		}
 		else if(temp_c=='\n'&&flag_name==1)  // that means we finish configure password
- 8000658:	4b13      	ldr	r3, [pc, #76]	; (80006a8 <USART2_EXTI26_IRQHandler+0xe4>)
- 800065a:	781b      	ldrb	r3, [r3, #0]
- 800065c:	2b0a      	cmp	r3, #10
- 800065e:	d11b      	bne.n	8000698 <USART2_EXTI26_IRQHandler+0xd4>
- 8000660:	4b12      	ldr	r3, [pc, #72]	; (80006ac <USART2_EXTI26_IRQHandler+0xe8>)
- 8000662:	681b      	ldr	r3, [r3, #0]
- 8000664:	2b01      	cmp	r3, #1
- 8000666:	d117      	bne.n	8000698 <USART2_EXTI26_IRQHandler+0xd4>
+ 80005ec:	4b13      	ldr	r3, [pc, #76]	; (800063c <USART2_EXTI26_IRQHandler+0xe4>)
+ 80005ee:	781b      	ldrb	r3, [r3, #0]
+ 80005f0:	2b0a      	cmp	r3, #10
+ 80005f2:	d11b      	bne.n	800062c <USART2_EXTI26_IRQHandler+0xd4>
+ 80005f4:	4b12      	ldr	r3, [pc, #72]	; (8000640 <USART2_EXTI26_IRQHandler+0xe8>)
+ 80005f6:	681b      	ldr	r3, [r3, #0]
+ 80005f8:	2b01      	cmp	r3, #1
+ 80005fa:	d117      	bne.n	800062c <USART2_EXTI26_IRQHandler+0xd4>
 		{
 			flag_password=1;
- 8000668:	4b14      	ldr	r3, [pc, #80]	; (80006bc <USART2_EXTI26_IRQHandler+0xf8>)
- 800066a:	2201      	movs	r2, #1
- 800066c:	601a      	str	r2, [r3, #0]
+ 80005fc:	4b14      	ldr	r3, [pc, #80]	; (8000650 <USART2_EXTI26_IRQHandler+0xf8>)
+ 80005fe:	2201      	movs	r2, #1
+ 8000600:	601a      	str	r2, [r3, #0]
 			password_of_wifi[counter]='"';
- 800066e:	4b10      	ldr	r3, [pc, #64]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 8000670:	681b      	ldr	r3, [r3, #0]
- 8000672:	4a11      	ldr	r2, [pc, #68]	; (80006b8 <USART2_EXTI26_IRQHandler+0xf4>)
- 8000674:	2122      	movs	r1, #34	; 0x22
- 8000676:	54d1      	strb	r1, [r2, r3]
+ 8000602:	4b10      	ldr	r3, [pc, #64]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 8000604:	681b      	ldr	r3, [r3, #0]
+ 8000606:	4a11      	ldr	r2, [pc, #68]	; (800064c <USART2_EXTI26_IRQHandler+0xf4>)
+ 8000608:	2122      	movs	r1, #34	; 0x22
+ 800060a:	54d1      	strb	r1, [r2, r3]
 			password_of_wifi[counter+1]='\r';       // demands of the wifi modem
- 8000678:	4b0d      	ldr	r3, [pc, #52]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 800067a:	681b      	ldr	r3, [r3, #0]
- 800067c:	3301      	adds	r3, #1
- 800067e:	4a0e      	ldr	r2, [pc, #56]	; (80006b8 <USART2_EXTI26_IRQHandler+0xf4>)
- 8000680:	210d      	movs	r1, #13
- 8000682:	54d1      	strb	r1, [r2, r3]
+ 800060c:	4b0d      	ldr	r3, [pc, #52]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 800060e:	681b      	ldr	r3, [r3, #0]
+ 8000610:	3301      	adds	r3, #1
+ 8000612:	4a0e      	ldr	r2, [pc, #56]	; (800064c <USART2_EXTI26_IRQHandler+0xf4>)
+ 8000614:	210d      	movs	r1, #13
+ 8000616:	54d1      	strb	r1, [r2, r3]
 			password_of_wifi[counter+2]='\n';		// demands of the wifi modem
- 8000684:	4b0a      	ldr	r3, [pc, #40]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 8000686:	681b      	ldr	r3, [r3, #0]
- 8000688:	3302      	adds	r3, #2
- 800068a:	4a0b      	ldr	r2, [pc, #44]	; (80006b8 <USART2_EXTI26_IRQHandler+0xf4>)
- 800068c:	210a      	movs	r1, #10
- 800068e:	54d1      	strb	r1, [r2, r3]
+ 8000618:	4b0a      	ldr	r3, [pc, #40]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 800061a:	681b      	ldr	r3, [r3, #0]
+ 800061c:	3302      	adds	r3, #2
+ 800061e:	4a0b      	ldr	r2, [pc, #44]	; (800064c <USART2_EXTI26_IRQHandler+0xf4>)
+ 8000620:	210a      	movs	r1, #10
+ 8000622:	54d1      	strb	r1, [r2, r3]
 			counter=0;
- 8000690:	4b07      	ldr	r3, [pc, #28]	; (80006b0 <USART2_EXTI26_IRQHandler+0xec>)
- 8000692:	2200      	movs	r2, #0
- 8000694:	601a      	str	r2, [r3, #0]
+ 8000624:	4b07      	ldr	r3, [pc, #28]	; (8000644 <USART2_EXTI26_IRQHandler+0xec>)
+ 8000626:	2200      	movs	r2, #0
+ 8000628:	601a      	str	r2, [r3, #0]
 			//print("%s",name_of_wifi);
 			//print("%s",password_of_wifi);
 		}
 
 }
- 8000696:	e7ff      	b.n	8000698 <USART2_EXTI26_IRQHandler+0xd4>
- 8000698:	bf00      	nop
- 800069a:	46bd      	mov	sp, r7
- 800069c:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80006a0:	4770      	bx	lr
- 80006a2:	bf00      	nop
- 80006a4:	40004400 	.word	0x40004400
- 80006a8:	2000291d 	.word	0x2000291d
- 80006ac:	200028a4 	.word	0x200028a4
- 80006b0:	20000038 	.word	0x20000038
- 80006b4:	2000013c 	.word	0x2000013c
- 80006b8:	20000164 	.word	0x20000164
- 80006bc:	200028a8 	.word	0x200028a8
+ 800062a:	e7ff      	b.n	800062c <USART2_EXTI26_IRQHandler+0xd4>
+ 800062c:	bf00      	nop
+ 800062e:	46bd      	mov	sp, r7
+ 8000630:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000634:	4770      	bx	lr
+ 8000636:	bf00      	nop
+ 8000638:	40004400 	.word	0x40004400
+ 800063c:	20002921 	.word	0x20002921
+ 8000640:	200028a4 	.word	0x200028a4
+ 8000644:	20000000 	.word	0x20000000
+ 8000648:	2000284c 	.word	0x2000284c
+ 800064c:	20002874 	.word	0x20002874
+ 8000650:	200028a8 	.word	0x200028a8
 
-080006c0 <USART1_EXTI25_IRQHandler>:
+08000654 <USART1_EXTI25_IRQHandler>:
 
 void USART1_EXTI25_IRQHandler(void)   // interrupt uart for proccessor
 {
- 80006c0:	b480      	push	{r7}
- 80006c2:	af00      	add	r7, sp, #0
+ 8000654:	b480      	push	{r7}
+ 8000656:	af00      	add	r7, sp, #0
 
 		wifi_buffer[count_wifi_buffer]=USART1->RDR;
- 80006c4:	4b08      	ldr	r3, [pc, #32]	; (80006e8 <USART1_EXTI25_IRQHandler+0x28>)
- 80006c6:	8c9b      	ldrh	r3, [r3, #36]	; 0x24
- 80006c8:	b29a      	uxth	r2, r3
- 80006ca:	4b08      	ldr	r3, [pc, #32]	; (80006ec <USART1_EXTI25_IRQHandler+0x2c>)
- 80006cc:	681b      	ldr	r3, [r3, #0]
- 80006ce:	b2d1      	uxtb	r1, r2
- 80006d0:	4a07      	ldr	r2, [pc, #28]	; (80006f0 <USART1_EXTI25_IRQHandler+0x30>)
- 80006d2:	54d1      	strb	r1, [r2, r3]
+ 8000658:	4b08      	ldr	r3, [pc, #32]	; (800067c <USART1_EXTI25_IRQHandler+0x28>)
+ 800065a:	8c9b      	ldrh	r3, [r3, #36]	; 0x24
+ 800065c:	b29a      	uxth	r2, r3
+ 800065e:	4b08      	ldr	r3, [pc, #32]	; (8000680 <USART1_EXTI25_IRQHandler+0x2c>)
+ 8000660:	681b      	ldr	r3, [r3, #0]
+ 8000662:	b2d1      	uxtb	r1, r2
+ 8000664:	4a07      	ldr	r2, [pc, #28]	; (8000684 <USART1_EXTI25_IRQHandler+0x30>)
+ 8000666:	54d1      	strb	r1, [r2, r3]
 		count_wifi_buffer++;
- 80006d4:	4b05      	ldr	r3, [pc, #20]	; (80006ec <USART1_EXTI25_IRQHandler+0x2c>)
- 80006d6:	681b      	ldr	r3, [r3, #0]
- 80006d8:	3301      	adds	r3, #1
- 80006da:	4a04      	ldr	r2, [pc, #16]	; (80006ec <USART1_EXTI25_IRQHandler+0x2c>)
- 80006dc:	6013      	str	r3, [r2, #0]
+ 8000668:	4b05      	ldr	r3, [pc, #20]	; (8000680 <USART1_EXTI25_IRQHandler+0x2c>)
+ 800066a:	681b      	ldr	r3, [r3, #0]
+ 800066c:	3301      	adds	r3, #1
+ 800066e:	4a04      	ldr	r2, [pc, #16]	; (8000680 <USART1_EXTI25_IRQHandler+0x2c>)
+ 8000670:	6013      	str	r3, [r2, #0]
 
 
 
 
 
 }
- 80006de:	bf00      	nop
- 80006e0:	46bd      	mov	sp, r7
- 80006e2:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80006e6:	4770      	bx	lr
- 80006e8:	40013800 	.word	0x40013800
- 80006ec:	2000289c 	.word	0x2000289c
- 80006f0:	2000018c 	.word	0x2000018c
+ 8000672:	bf00      	nop
+ 8000674:	46bd      	mov	sp, r7
+ 8000676:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800067a:	4770      	bx	lr
+ 800067c:	40013800 	.word	0x40013800
+ 8000680:	2000289c 	.word	0x2000289c
+ 8000684:	2000013c 	.word	0x2000013c
 
-080006f4 <print>:
+08000688 <print>:
 
 void print(char *p_format, ...)
 {
- 80006f4:	b40f      	push	{r0, r1, r2, r3}
- 80006f6:	b580      	push	{r7, lr}
- 80006f8:	b082      	sub	sp, #8
- 80006fa:	af00      	add	r7, sp, #0
+ 8000688:	b40f      	push	{r0, r1, r2, r3}
+ 800068a:	b580      	push	{r7, lr}
+ 800068c:	b082      	sub	sp, #8
+ 800068e:	af00      	add	r7, sp, #0
 	va_list p_variables;
 	va_start(p_variables, p_format);
- 80006fc:	f107 0314 	add.w	r3, r7, #20
- 8000700:	607b      	str	r3, [r7, #4]
+ 8000690:	f107 0314 	add.w	r3, r7, #20
+ 8000694:	607b      	str	r3, [r7, #4]
 	(void)vsprintf(A_Buffer, p_format, p_variables);
- 8000702:	687a      	ldr	r2, [r7, #4]
- 8000704:	6939      	ldr	r1, [r7, #16]
- 8000706:	4806      	ldr	r0, [pc, #24]	; (8000720 <print+0x2c>)
- 8000708:	f000 f8a2 	bl	8000850 <vsiprintf>
+ 8000696:	687a      	ldr	r2, [r7, #4]
+ 8000698:	6939      	ldr	r1, [r7, #16]
+ 800069a:	4806      	ldr	r0, [pc, #24]	; (80006b4 <print+0x2c>)
+ 800069c:	f000 f8d8 	bl	8000850 <vsiprintf>
     USART2_print(A_Buffer);
- 800070c:	4804      	ldr	r0, [pc, #16]	; (8000720 <print+0x2c>)
- 800070e:	f000 f809 	bl	8000724 <USART2_print>
+ 80006a0:	4804      	ldr	r0, [pc, #16]	; (80006b4 <print+0x2c>)
+ 80006a2:	f000 f809 	bl	80006b8 <USART2_print>
 }
- 8000712:	bf00      	nop
- 8000714:	3708      	adds	r7, #8
- 8000716:	46bd      	mov	sp, r7
- 8000718:	e8bd 4080 	ldmia.w	sp!, {r7, lr}
- 800071c:	b004      	add	sp, #16
- 800071e:	4770      	bx	lr
- 8000720:	200000bc 	.word	0x200000bc
+ 80006a6:	bf00      	nop
+ 80006a8:	3708      	adds	r7, #8
+ 80006aa:	46bd      	mov	sp, r7
+ 80006ac:	e8bd 4080 	ldmia.w	sp!, {r7, lr}
+ 80006b0:	b004      	add	sp, #16
+ 80006b2:	4770      	bx	lr
+ 80006b4:	200000bc 	.word	0x200000bc
 
-08000724 <USART2_print>:
+080006b8 <USART2_print>:
 
 
 void USART2_print(const char *p_data)
 {
- 8000724:	b480      	push	{r7}
- 8000726:	b083      	sub	sp, #12
- 8000728:	af00      	add	r7, sp, #0
- 800072a:	6078      	str	r0, [r7, #4]
+ 80006b8:	b480      	push	{r7}
+ 80006ba:	b083      	sub	sp, #12
+ 80006bc:	af00      	add	r7, sp, #0
+ 80006be:	6078      	str	r0, [r7, #4]
 	while(*p_data != '\0')
- 800072c:	e00e      	b.n	800074c <USART2_print+0x28>
+ 80006c0:	e00e      	b.n	80006e0 <USART2_print+0x28>
 	{
 		USART2->TDR = *p_data;
- 800072e:	687b      	ldr	r3, [r7, #4]
- 8000730:	781a      	ldrb	r2, [r3, #0]
- 8000732:	4b0c      	ldr	r3, [pc, #48]	; (8000764 <USART2_print+0x40>)
- 8000734:	b292      	uxth	r2, r2
- 8000736:	851a      	strh	r2, [r3, #40]	; 0x28
+ 80006c2:	687b      	ldr	r3, [r7, #4]
+ 80006c4:	781a      	ldrb	r2, [r3, #0]
+ 80006c6:	4b0c      	ldr	r3, [pc, #48]	; (80006f8 <USART2_print+0x40>)
+ 80006c8:	b292      	uxth	r2, r2
+ 80006ca:	851a      	strh	r2, [r3, #40]	; 0x28
         p_data++;
- 8000738:	687b      	ldr	r3, [r7, #4]
- 800073a:	3301      	adds	r3, #1
- 800073c:	607b      	str	r3, [r7, #4]
+ 80006cc:	687b      	ldr	r3, [r7, #4]
+ 80006ce:	3301      	adds	r3, #1
+ 80006d0:	607b      	str	r3, [r7, #4]
         while(!(USART2->ISR & 0x00000080));
- 800073e:	bf00      	nop
- 8000740:	4b08      	ldr	r3, [pc, #32]	; (8000764 <USART2_print+0x40>)
- 8000742:	69db      	ldr	r3, [r3, #28]
- 8000744:	f003 0380 	and.w	r3, r3, #128	; 0x80
- 8000748:	2b00      	cmp	r3, #0
- 800074a:	d0f9      	beq.n	8000740 <USART2_print+0x1c>
+ 80006d2:	bf00      	nop
+ 80006d4:	4b08      	ldr	r3, [pc, #32]	; (80006f8 <USART2_print+0x40>)
+ 80006d6:	69db      	ldr	r3, [r3, #28]
+ 80006d8:	f003 0380 	and.w	r3, r3, #128	; 0x80
+ 80006dc:	2b00      	cmp	r3, #0
+ 80006de:	d0f9      	beq.n	80006d4 <USART2_print+0x1c>
 	while(*p_data != '\0')
- 800074c:	687b      	ldr	r3, [r7, #4]
- 800074e:	781b      	ldrb	r3, [r3, #0]
- 8000750:	2b00      	cmp	r3, #0
- 8000752:	d1ec      	bne.n	800072e <USART2_print+0xa>
+ 80006e0:	687b      	ldr	r3, [r7, #4]
+ 80006e2:	781b      	ldrb	r3, [r3, #0]
+ 80006e4:	2b00      	cmp	r3, #0
+ 80006e6:	d1ec      	bne.n	80006c2 <USART2_print+0xa>
 	}
 }
- 8000754:	bf00      	nop
+ 80006e8:	bf00      	nop
+ 80006ea:	bf00      	nop
+ 80006ec:	370c      	adds	r7, #12
+ 80006ee:	46bd      	mov	sp, r7
+ 80006f0:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80006f4:	4770      	bx	lr
+ 80006f6:	bf00      	nop
+ 80006f8:	40004400 	.word	0x40004400
+
+080006fc <wifiConnect>:
+
+
+
+
+void wifiConnect(char* wifi_arr)
+{
+ 80006fc:	b580      	push	{r7, lr}
+ 80006fe:	b082      	sub	sp, #8
+ 8000700:	af00      	add	r7, sp, #0
+ 8000702:	6078      	str	r0, [r7, #4]
+	sendCommand(at); // input command 'ATE0'
+ 8000704:	4814      	ldr	r0, [pc, #80]	; (8000758 <wifiConnect+0x5c>)
+ 8000706:	f7ff fdff 	bl	8000308 <sendCommand>
+	printResponse(); // print response
+ 800070a:	f7ff fe63 	bl	80003d4 <printResponse>
+
+	strcat(config_two,wifi_arr);  // union between wifi details and 'AT+CWJAP COMMAND
+ 800070e:	6879      	ldr	r1, [r7, #4]
+ 8000710:	4812      	ldr	r0, [pc, #72]	; (800075c <wifiConnect+0x60>)
+ 8000712:	f000 f877 	bl	8000804 <strcat>
+
+	sendCommand(config_one); // input command 'AT+CWMODE=1'
+ 8000716:	4812      	ldr	r0, [pc, #72]	; (8000760 <wifiConnect+0x64>)
+ 8000718:	f7ff fdf6 	bl	8000308 <sendCommand>
+	printResponse();         // print response
+ 800071c:	f7ff fe5a 	bl	80003d4 <printResponse>
+	count=0;
+ 8000720:	4b10      	ldr	r3, [pc, #64]	; (8000764 <wifiConnect+0x68>)
+ 8000722:	2200      	movs	r2, #0
+ 8000724:	601a      	str	r2, [r3, #0]
+
+	sendCommand(config_two); // input command 'AT+CWJAP=wifi details'
+ 8000726:	480d      	ldr	r0, [pc, #52]	; (800075c <wifiConnect+0x60>)
+ 8000728:	f7ff fdee 	bl	8000308 <sendCommand>
+	printResponse();      // print response
+ 800072c:	f7ff fe52 	bl	80003d4 <printResponse>
+	printResponse();
+ 8000730:	f7ff fe50 	bl	80003d4 <printResponse>
+	printResponse();
+ 8000734:	f7ff fe4e 	bl	80003d4 <printResponse>
+	printResponse();
+ 8000738:	f7ff fe4c 	bl	80003d4 <printResponse>
+	printResponse();
+ 800073c:	f7ff fe4a 	bl	80003d4 <printResponse>
+	printResponse();
+ 8000740:	f7ff fe48 	bl	80003d4 <printResponse>
+	printResponse();
+ 8000744:	f7ff fe46 	bl	80003d4 <printResponse>
+
+
+		count=0;
+ 8000748:	4b06      	ldr	r3, [pc, #24]	; (8000764 <wifiConnect+0x68>)
+ 800074a:	2200      	movs	r2, #0
+ 800074c:	601a      	str	r2, [r3, #0]
+
+
+}
+ 800074e:	bf00      	nop
+ 8000750:	3708      	adds	r7, #8
+ 8000752:	46bd      	mov	sp, r7
+ 8000754:	bd80      	pop	{r7, pc}
  8000756:	bf00      	nop
- 8000758:	370c      	adds	r7, #12
- 800075a:	46bd      	mov	sp, r7
- 800075c:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8000760:	4770      	bx	lr
- 8000762:	bf00      	nop
- 8000764:	40004400 	.word	0x40004400
+ 8000758:	20000034 	.word	0x20000034
+ 800075c:	20000014 	.word	0x20000014
+ 8000760:	20000004 	.word	0x20000004
+ 8000764:	200028ac 	.word	0x200028ac
 
 08000768 <Reset_Handler>:
+
+  .section .text.Reset_Handler
+  .weak Reset_Handler
+  .type Reset_Handler, %function
+Reset_Handler:
+  ldr   r0, =_estack
  8000768:	480d      	ldr	r0, [pc, #52]	; (80007a0 <LoopForever+0x2>)
+  mov   sp, r0          /* set stack pointer */
  800076a:	4685      	mov	sp, r0
+/* Call the clock system intitialization function.*/
+  bl  SystemInit
  800076c:	f3af 8000 	nop.w
+
+/* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_sdata
  8000770:	480c      	ldr	r0, [pc, #48]	; (80007a4 <LoopForever+0x6>)
+  ldr r1, =_edata
  8000772:	490d      	ldr	r1, [pc, #52]	; (80007a8 <LoopForever+0xa>)
+  ldr r2, =_sidata
  8000774:	4a0d      	ldr	r2, [pc, #52]	; (80007ac <LoopForever+0xe>)
+  movs r3, #0
  8000776:	2300      	movs	r3, #0
+  b LoopCopyDataInit
  8000778:	e002      	b.n	8000780 <LoopCopyDataInit>
 
 0800077a <CopyDataInit>:
+
+CopyDataInit:
+  ldr r4, [r2, r3]
  800077a:	58d4      	ldr	r4, [r2, r3]
+  str r4, [r0, r3]
  800077c:	50c4      	str	r4, [r0, r3]
+  adds r3, r3, #4
  800077e:	3304      	adds	r3, #4
 
 08000780 <LoopCopyDataInit>:
+
+LoopCopyDataInit:
+  adds r4, r0, r3
  8000780:	18c4      	adds	r4, r0, r3
+  cmp r4, r1
  8000782:	428c      	cmp	r4, r1
+  bcc CopyDataInit
  8000784:	d3f9      	bcc.n	800077a <CopyDataInit>
+
+/* Zero fill the bss segment. */
+  ldr r2, =_sbss
  8000786:	4a0a      	ldr	r2, [pc, #40]	; (80007b0 <LoopForever+0x12>)
+  ldr r4, =_ebss
  8000788:	4c0a      	ldr	r4, [pc, #40]	; (80007b4 <LoopForever+0x16>)
+  movs r3, #0
  800078a:	2300      	movs	r3, #0
+  b LoopFillZerobss
  800078c:	e001      	b.n	8000792 <LoopFillZerobss>
 
 0800078e <FillZerobss>:
+
+FillZerobss:
+  str  r3, [r2]
  800078e:	6013      	str	r3, [r2, #0]
+  adds r2, r2, #4
  8000790:	3204      	adds	r2, #4
 
 08000792 <LoopFillZerobss>:
+
+LoopFillZerobss:
+  cmp r2, r4
  8000792:	42a2      	cmp	r2, r4
+  bcc FillZerobss
  8000794:	d3fb      	bcc.n	800078e <FillZerobss>
+
+/* Call static constructors */
+  bl __libc_init_array
  8000796:	f000 f811 	bl	80007bc <__libc_init_array>
+/* Call the application's entry point.*/
+  bl main
  800079a:	f7ff fd81 	bl	80002a0 <main>
 
 0800079e <LoopForever>:
+
+LoopForever:
+    b LoopForever
  800079e:	e7fe      	b.n	800079e <LoopForever>
+  ldr   r0, =_estack
  80007a0:	20010000 	.word	0x20010000
+  ldr r0, =_sdata
  80007a4:	20000000 	.word	0x20000000
+  ldr r1, =_edata
  80007a8:	200000a0 	.word	0x200000a0
+  ldr r2, =_sidata
  80007ac:	08001160 	.word	0x08001160
+  ldr r2, =_sbss
  80007b0:	200000a0 	.word	0x200000a0
- 80007b4:	20002934 	.word	0x20002934
+  ldr r4, =_ebss
+ 80007b4:	20002938 	.word	0x20002938
 
 080007b8 <ADC1_2_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
  80007b8:	e7fe      	b.n	80007b8 <ADC1_2_IRQHandler>
 	...
 
@@ -1344,11 +1411,11 @@ void USART2_print(const char *p_data)
  8000b00:	f000 f87a 	bl	8000bf8 <_printf_i>
  8000b04:	e7eb      	b.n	8000ade <_svfiprintf_r+0x1c2>
  8000b06:	bf00      	nop
- 8000b08:	08001124 	.word	0x08001124
- 8000b0c:	0800112e 	.word	0x0800112e
+ 8000b08:	08001122 	.word	0x08001122
+ 8000b0c:	0800112c 	.word	0x0800112c
  8000b10:	00000000 	.word	0x00000000
  8000b14:	08000865 	.word	0x08000865
- 8000b18:	0800112a 	.word	0x0800112a
+ 8000b18:	08001128 	.word	0x08001128
 
 08000b1c <_printf_common>:
  8000b1c:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
@@ -1684,8 +1751,8 @@ void USART2_print(const char *p_data)
  8000e34:	f104 0619 	add.w	r6, r4, #25
  8000e38:	e7f5      	b.n	8000e26 <_printf_i+0x22e>
  8000e3a:	bf00      	nop
- 8000e3c:	08001135 	.word	0x08001135
- 8000e40:	08001146 	.word	0x08001146
+ 8000e3c:	08001133 	.word	0x08001133
+ 8000e40:	08001144 	.word	0x08001144
 
 08000e44 <memcpy>:
  8000e44:	440a      	add	r2, r1
@@ -1797,7 +1864,7 @@ void USART2_print(const char *p_data)
  8000f2a:	e7c7      	b.n	8000ebc <_free_r+0x28>
  8000f2c:	b003      	add	sp, #12
  8000f2e:	bd30      	pop	{r4, r5, pc}
- 8000f30:	200028ac 	.word	0x200028ac
+ 8000f30:	200028b0 	.word	0x200028b0
 
 08000f34 <_malloc_r>:
  8000f34:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
@@ -1876,8 +1943,8 @@ void USART2_print(const char *p_data)
  8000fda:	d1dd      	bne.n	8000f98 <_malloc_r+0x64>
  8000fdc:	e7cf      	b.n	8000f7e <_malloc_r+0x4a>
  8000fde:	bf00      	nop
- 8000fe0:	200028ac 	.word	0x200028ac
- 8000fe4:	200028b0 	.word	0x200028b0
+ 8000fe0:	200028b0 	.word	0x200028b0
+ 8000fe4:	200028b4 	.word	0x200028b4
 
 08000fe8 <_realloc_r>:
  8000fe8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
@@ -1926,19 +1993,19 @@ void USART2_print(const char *p_data)
  800104a:	b103      	cbz	r3, 800104e <_sbrk_r+0x1a>
  800104c:	6023      	str	r3, [r4, #0]
  800104e:	bd38      	pop	{r3, r4, r5, pc}
- 8001050:	20002924 	.word	0x20002924
+ 8001050:	20002928 	.word	0x20002928
 
 08001054 <__malloc_lock>:
  8001054:	4801      	ldr	r0, [pc, #4]	; (800105c <__malloc_lock+0x8>)
  8001056:	f000 b811 	b.w	800107c <__retarget_lock_acquire_recursive>
  800105a:	bf00      	nop
- 800105c:	2000292c 	.word	0x2000292c
+ 800105c:	20002930 	.word	0x20002930
 
 08001060 <__malloc_unlock>:
  8001060:	4801      	ldr	r0, [pc, #4]	; (8001068 <__malloc_unlock+0x8>)
  8001062:	f000 b80c 	b.w	800107e <__retarget_lock_release_recursive>
  8001066:	bf00      	nop
- 8001068:	2000292c 	.word	0x2000292c
+ 8001068:	20002930 	.word	0x20002930
 
 0800106c <_malloc_usable_size_r>:
  800106c:	f851 3c04 	ldr.w	r3, [r1, #-4]
@@ -1966,7 +2033,7 @@ void USART2_print(const char *p_data)
  800108e:	4402      	add	r2, r0
  8001090:	601a      	str	r2, [r3, #0]
  8001092:	4770      	bx	lr
- 8001094:	200028b4 	.word	0x200028b4
+ 8001094:	200028b8 	.word	0x200028b8
  8001098:	20002938 	.word	0x20002938
 
 0800109c <_init>:

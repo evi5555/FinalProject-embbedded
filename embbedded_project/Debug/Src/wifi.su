@@ -1,1 +1,2 @@
-wifi.c:25:6:wifiLedExecute	4	static
+wifi.c:26:6:wifiConnect	16	static
+wifi.c:55:6:wifiLedExecute	4	static
