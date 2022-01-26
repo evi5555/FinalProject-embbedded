@@ -16,7 +16,7 @@ static char password_of_wifi[40];
 static char config_one[ ]={'A','T','+','C','W','M','O','D','E','=','1','\r','\n','\0'};
 static char config_two[30]={'A','T','+','C','W','J','A','P','=','\0'};
 static char at[8]={'A','T','E','0','\r','\n','\0'};
-static char wifi_buffer[200];
+static char wifi_buffer[10000];
 int count_at=0;
 int counter=1;
 int count_dump=0;
@@ -32,7 +32,7 @@ char *ret;
 
 
 
-void wifiDetail()
+void wifiDetail() // input the wifi details
 {
 	if(flag_name==0&&flag_password==0)
 	{
@@ -54,10 +54,23 @@ void wifiDetail()
 
 }
 
+void sendCommand(char *send_arr)  // send command to the modem
+{
+	int count_arr=0;
+	while(send_arr[count_arr]!='\0')
+		{
+			USART1->TDR=send_arr[count_arr];
+			while(!(USART1->ISR & 0x00000080));
+			count_arr++;
+		}
+
+
+}
+
 void printResponse()
 {
 
-	while(ret==NULL)                             // check if there is '\n' means that command over
+	while(ret==NULL)                             // check if there is '\n' it means that command over
 		{
 			ret=memchr(wifi_buffer,'\n',200);
 		}
@@ -81,48 +94,29 @@ void printResponse()
 }
 void wifiConnect(char* wifi_arr)
 {
-	while(at[count_at]!='\0')
-	{
-		USART1->TDR=at[count_at];        // input command 'ATE0'
-		while(!(USART1->ISR & 0x00000080));
-		count_at++;
-	}
-	printResponse();
+	sendCommand(at); // input command 'ATE0'
+	printResponse(); // print response
 
-	strcat(config_two,wifi_arr);
-	//print("%s",config_two);
-	while(config_one[counter]!='\0')
-		{
-			USART1->TDR=config_one[counter];  // input command 'AT+CWMODE=1'
-			while(!(USART1->ISR & 0x00000080));
-			counter++;
+	strcat(config_two,wifi_arr);  // union between wifi details and 'AT+CWJAP COMMAND
 
-		}
-	printResponse();
+	sendCommand(config_one); // input command 'AT+CWMODE=1'
+	printResponse();         // print response
 	counter=0;
 
-	while(config_two[counter]!='\0')
-		{
-			USART1->TDR=config_two[counter];  // input command 'AT+CWJAP=wifi details'
-			while(!(USART1->ISR & 0x00000080));
-			counter++;
-		}
+	sendCommand(config_two); // input command 'AT+CWJAP=wifi details'
+	printResponse();      // print response
 	printResponse();
 	printResponse();
 	printResponse();
 	printResponse();
 	printResponse();
 	printResponse();
-	printResponse();
-	//printResponse();
+
 
 		counter=0;
 
 
 }
-
-
-
 
 
 void uartProccessorInit()
