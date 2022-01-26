@@ -80,13 +80,13 @@ void printResponse()
 	while(wifi_buffer[count_wifi_buftwo]!='\r'&&wifi_buffer[count_wifi_buftwo+1]!='\n')     // print the command
 		{
 			print("%c",wifi_buffer[count_wifi_buftwo]);
-			if(wifi_buffer[count_wifi_buftwo-1]=='O'&&wifi_buffer[count_wifi_buftwo]=='K')
+			if(wifi_buffer[count_wifi_buftwo-1]=='O'&&wifi_buffer[count_wifi_buftwo]=='K') // if we get 'OK' then we put \n
 			{
 				print("\n");
 				flag_ok=1;
 			}
 
-			if(wifi_buffer[count_wifi_buftwo]=='\n')
+			if(wifi_buffer[count_wifi_buftwo]=='\n')        // we dissapear the '\n' in order to check if there is a new '\n' at the next call
 			{
 				wifi_buffer[count_wifi_buftwo]=' ';
 			}
@@ -95,13 +95,13 @@ void printResponse()
 		}
 	wifi_buffer[count_wifi_buftwo+1]=' ';
 
-	if(flag_ok!=1)
+	if(flag_ok!=1)        // in case we didnt get ok we continute to printResponse
 	{
 		count_wifi_buftwo++;
 		ret=NULL;
 		printResponse();
 	}
-	else if(flag_ok==1)
+	else if(flag_ok==1) // in case we got ok
 	{
 		flag_ok=0;
 		count_wifi_buftwo++;
@@ -221,6 +221,5 @@ void USART2_print(const char *p_data)
         while(!(USART2->ISR & 0x00000080));
 	}
 }
-
 
 

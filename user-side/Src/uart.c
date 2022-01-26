@@ -223,4 +223,3 @@ void USART2_print(const char *p_data)
 }
 
 
-
