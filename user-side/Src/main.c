@@ -30,6 +30,7 @@ int main(void)
 {
 	uartProccessorInit();
 	uartComputerInit();
+	sendCommand("AT+CIPSTART=\"TCP\",\"192.168.1.32\",80\r\n");
 
 
 
@@ -38,7 +39,7 @@ int main(void)
 
     while(1)
     {
-    	/*
+
     	while(p_read!=p_write) // in case buffer is not empty
     	{
     		                   //handle an event in the buffer
@@ -58,6 +59,4 @@ int main(void)
     }
 }
 
-*/
-    }
-}
+
