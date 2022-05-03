@@ -35,6 +35,22 @@ void LedInit()
 
 
 }
+
+void LED_toggle(){
+	// Toggle GPIOA pin 5.
+	GPIOA->ODR ^= 0x0020;
+}
+
+void LED_on()
+{
+	GPIOA->ODR |= 0x0020;
+}
+
+void LED_off()
+{
+	GPIOA->ODR &= ~(0x0020);
+}
+
 void EXTI15_10_IRQHandler(void)
 {
 	// Reset the interrupt request flag.
