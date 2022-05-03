@@ -28,41 +28,43 @@ int *p_write=event_queue;
 
 int main(void)
 {
-	uartProccessorInit();
-	uartComputerInit();
-	sendCommand("AT+CIPMUX=1\r\n"); //configure server
-	sendCommand("AT+CIPSERVER=1,80\r\n"); // configure server
-	sendCommand("AT+CIFSR\r\n");
+	//set_sys_clock_to_32MHz();
+	//init_MCO();
 
 
 
 
+	uartProccessorInit(); // for xb2b
+	uartComputerInit(); // for debugging
+
+	TIMER2_init(); // for monitoring switch state.
+	TIMER3_init(); // for sensor delay
+	TIMER4_init(); // for ESP8266 timeout
+
+	QUEUE_init();
+
+	CONFIGURATIONS_set_device_id();
 
 
 
 
-    while(1)
-    {
-    	/*
-    	while(p_read!=p_write) // in case buffer is not empty
-    	{
-    		                   //handle an event in the buffer
+	TIMER4_set_timeout(60);
+	while(QUEUE_isEmpty() && !TIMER4_timeout_done());
 
-    		if(count_read<size_of_queue-1) // in case its not the last place in the array
-    			{
-    		     	 p_read++;
-    		     	 count_read++;
-    			}
-    		else {                         // in case its the last place in the array
-        	     	 p_read=event_queue;
-        	     	 count_read=0;
+	SENSOR_init(); // sensor interrupts are not inabled
 
-    	     	 }
-    	}
+	LED_init();
 
-    }
-}
 
-*/
-    }
+
+	//init_i2c1();
+	sendCommand((uint8_t*)("\r\n_______________\r\n"));//For test
+
+	while(1)
+	{
+
+		QUEUE_do_event();
+		SYSTEM_CONTROL_monitor_switch_state(120); // every 2 minutes
+
+	}
 }
