@@ -39,7 +39,7 @@ int main(void)
 
 	TIMER2_init(); // for monitoring switch state.
 	TIMER3_init(); // for sensor delay
-	TIMER4_init(); // for ESP8266 timeout
+	TIMER4_init(); // for xbee timeout
 
 	QUEUE_init();
 
