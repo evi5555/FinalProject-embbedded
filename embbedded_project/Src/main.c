@@ -9,9 +9,9 @@
 #include <catch.h>
 #include <led.h>
 #include <uart.h>
+#include <xb2b_wifi.h>
 #include "stm32f303xe.h"
 #include "types.h"
-#include "wifi.h"
 #define size_of_queue 10
 
 enum led_state{off,on,blink};

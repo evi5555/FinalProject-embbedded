@@ -1,5 +1,5 @@
-#ifndef WIFI_H_
-#define WIFI_H_
+#ifndef XB2B_WIFI_H_
+#define XB2B_WIFI_H_
 
 
 

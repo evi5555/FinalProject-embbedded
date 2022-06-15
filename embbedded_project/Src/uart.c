@@ -3,12 +3,12 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <xb2b_wifi.h>
 #include "stm32f303xe.h"
 #include "types.h"
 #include "uart.h"
 #include "led.h"
 #include "catch.h"
-#include "wifi.h"
 // This buffer is used by the printf-like print function.
 static char A_Buffer[USART2_SIZE_OF_PRINT_BUFFER];
 static char wifi_buffer[10000];
