@@ -223,3 +223,47 @@ void USART2_print(const char *p_data)
 }
 
 
+void USART2_write(uint8_t* msg){
+
+
+	/*Set usart1_buffer_Tx with msg*/
+	USART2_set_buffer_Tx(msg);
+
+	/*Prepare buffer Rx for response*/
+	USART2_set_buffer_Rx();
+
+	// set initial values to Rx interrupt flags
+	usart2.new_line_found = FALSE;
+	usart2.new_line_read = TRUE;
+
+	while(usart2.write_index < usart2.Tx_len)
+	{
+		while(((USART2->SR) & 0x00000080) == 0x00000000);// wait while data is not yet transfered (TXE != 1)(see RM 27.6.1)
+		USART2->DR = (uint8_t)(usart2.Tx[usart2.write_index] & 0xFF); //send data (see RM 27.6.2)
+		usart2.write_index++;
+	}
+	while(((USART2->SR) & 0x00000040) !=  0x00000040); //wait until transmission is complete TC=1 (see RM 27.6.1)
+	usart2.write_index = 0;
+	usart2.Tx_len = 0;
+
+}
+
+void USART2_write_line(uint8_t *start, uint8_t *end){
+
+	// Set buffer Tx
+	memset(usart2.Tx, '\0', BUFF_SIZE*sizeof(uint8_t));
+	if((BUFF_SIZE - (end - start) + 1) < 0){
+		strcpy((char*)usart2.Tx,"Error msg to Long\r\n");
+		usart2.Tx_len = strlen((char*)"Error msg to Long\r\n");
+	}
+	else{
+		uint32_t i = 0;
+		usart2.Tx_len = end - start;
+		while(start < end){
+			usart2.Tx[i] = *start;
+			start++;
+			i++;
+		}
+
+	}
+
