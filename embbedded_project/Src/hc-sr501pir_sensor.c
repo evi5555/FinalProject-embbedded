@@ -98,8 +98,8 @@ void toggle_led()
 /*Interrupt service routine for sensor using pin D5 (PB4) as input mode*/
 void EXTI4_IRQHandler(void)
 {
-	EXTI->PR |= 0x00000010; //reset flag by writing 1 to bit 4 (reference manual 10.3.6)
-	if(TIMER3_timeout_done())
+	EXTI->PR |= 0x00000010; //reset flag by writing 1 to bit 4
+	if(GPIOA->IDR & 0x00000001) // checking if there is a movement)
 	{
 		QUEUE_add_event(alert_Handler);
 		TIMER3_set_timeout(60); //60 seconds = 1 minute
